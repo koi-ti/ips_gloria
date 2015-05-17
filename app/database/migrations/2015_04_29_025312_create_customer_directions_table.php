@@ -21,7 +21,7 @@ class CreateCustomerDirectionsTable extends Migration {
             $table->string('nombre',100);   
             $table->string('persona',100);
             $table->string('direccion',100);
-            $table->integer('ciudad');  
+            $table->integer('ciudad')->unsigned();  
             $table->string('telefono',50);
             $table->string('email',50);
             $table->integer('cupos');

@@ -20,6 +20,7 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('logout', 'AuthController@logOut');
 
 	Route::resource('usuarios', 'UsersController');	
+	Route::resource('roles', 'RolesController');	
 	Route::resource('ordenes', 'OrdersController');	
 	Route::resource('ciudades', 'CitiesController');	
 

@@ -47,12 +47,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Security Access</a>
+          <a class="navbar-brand" href="{{ URL::to('/') }}">Security Access</a>
 
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">{{ Auth::user()->name; }}</a></li>
+            <li>{{ HTML::link('/', Auth::user()->nombre) }}</li>
             <li>{{ HTML::link('/logout', 'Cerrar sesión') }}</li>
           </ul>
         </div>
@@ -64,6 +64,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
               <li>{{ HTML::linkRoute('usuarios.index', 'Usuarios') }}</li>
+              <li>{{ HTML::linkRoute('roles.index', 'Roles') }}</li>
               <li>{{ HTML::linkRoute('ciudades.index', 'Ciudades') }}</li>
               <li>{{ HTML::linkRoute('ordenes.index', 'Ordenes de servicio') }}</li>
           </ul>

@@ -1,9 +1,9 @@
 <?php
 
-class CitiesController extends \BaseController {
+class RolesController extends \BaseController {
 
     /**
-     * Instantiate a new CitiesController instance.
+     * Instantiate a new RolesController instance.
      */
     public function __construct()
     {
@@ -18,16 +18,15 @@ class CitiesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$data['cities'] = $cities = City::getData();
+		$data['roles'] = $roles = Role::getData();
 		if(Request::ajax())
         {
-            $data["links"] = $cities->links();
-            $cities = View::make('core.cities.cities', $data)->render();
-            return Response::json(array('html' => $cities));
+            $data["links"] = $roles->links();
+            $roles = View::make('core.roles.roles', $data)->render();
+            return Response::json(array('html' => $roles));
         }
-        return View::make('core.cities.index')->with($data);	
+        return View::make('core.roles.index')->with($data);	
     }
-
 
 	/**
 	 * Show the form for creating a new resource.
@@ -36,8 +35,8 @@ class CitiesController extends \BaseController {
 	 */
 	public function create()
 	{
-		$city = new City;
-        return View::make('core.cities.form')->with(['city' => $city]);	
+		$role = new Role;
+        return View::make('core.roles.form')->with('role', $role);		
     }
 
 
@@ -50,27 +49,26 @@ class CitiesController extends \BaseController {
 	{
 		if(Request::ajax()) {
   			$data = Input::all();
-		    $city = new City;
+		    $role = new Role;
 	      	
-	      	if ($city->isValid($data)){      		        	
+	      	if ($role->isValid($data)){      		        	
 	        	DB::beginTransaction();	
 	        	try{
-	        		$city->fill($data);	        				        			
-	        		$city->save();
+	        		$role->fill($data);	        				        			
+	        		$role->save();
 					DB::commit();
-					return Response::json(array('success' => true, 'city' => $city));
+					return Response::json(array('success' => true, 'role' => $role));
 			    }catch(\Exception $exception){
 				    DB::rollback();
 					return Response::json(array('success' => false, 'errors' =>  "$exception - Consulte al administrador."));
 				}
   			}
-  			$data['errors'] = $city->errors;
+  			$data['errors'] = $role->errors;
         	$errors = View::make('errors', $data)->render();
     		return Response::json(array('success' => false, 'errors' => $errors));
   		}
         App::abort(404);
 	}
-
 
 	/**
 	 * Display the specified resource.
@@ -80,12 +78,12 @@ class CitiesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$city = City::find($id);
-		if(!$city instanceof City) {
+		$role = Role::find($id);
+		if(!$role instanceof Role) {
 			App::abort(404);	
 		}
-        return View::make('core.cities.show')->with('city', $city);	
-	}
+        return View::make('core.roles.show')->with('role', $role);		
+    }
 
 
 	/**
@@ -96,11 +94,11 @@ class CitiesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$city = City::find($id);
-		if(!$city instanceof City) {
+		$role = Role::find($id);
+		if(!$role instanceof Role) {
 			App::abort(404);	
 		}
-        return View::make('core.cities.form')->with('city', $city);	
+        return View::make('core.roles.form')->with('role', $role);		
     }
 
 
@@ -113,29 +111,29 @@ class CitiesController extends \BaseController {
 	public function update($id)
 	{
 		if(Request::ajax()) {
-			$city = City::find($id);
-			if(!$city instanceof City) {
+			$role = Role::find($id);
+			if(!$role instanceof Role) {
 				App::abort(404);	
 			}       
 	        $data = Input::all();
-	      	if ($city->isValid($data)){      		        	
+	      	if ($role->isValid($data)){      		        	
 	       		DB::beginTransaction();	
 	        	try{
-	        		$city->fill($data);	        				        			
-	        		$city->save();
+	        		$role->fill($data);	        				        			
+	        		$role->save();
 					DB::commit();
-					return Response::json(array('success' => true, 'city' => $city));
+					return Response::json(array('success' => true, 'role' => $role));
 			    }catch(\Exception $exception){
 				    DB::rollback();
 					return Response::json(array('success' => false, 'errors' =>  "$exception - Consulte al administrador."));
 				}
 	        }
-  			$data['errors'] = $city->errors;
+  			$data['errors'] = $role->errors;
         	$errors = View::make('errors', $data)->render();
     		return Response::json(array('success' => false, 'errors' => $errors));
 		}
-        App::abort(404);
-	}
+        App::abort(404);	
+    }
 
 
 	/**

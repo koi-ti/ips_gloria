@@ -6,9 +6,10 @@
 class UserTableSeeder extends Seeder {
     public function run(){
         User::create(array(
-            'email'    => 'dropecamargo@gmail.com',
-            'nombre'   => 'Pedro Camargo',
-            'password' => 'admin', 
+            'email'    => 'admin@koi-ti.com',
+            'nombre'   => 'Administrador',
+            'password' => '1280almas', 
+            'rol'    => 1,
 			'activo' => True
         ));
     }

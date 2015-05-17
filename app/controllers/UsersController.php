@@ -36,7 +36,9 @@ class UsersController extends \BaseController {
     public function create()
     {
         $user = new User;
-        return View::make('core/users/form')->with('user', $user);
+        $roles = Role::lists('nombre', 'id');
+
+        return View::make('core/users/form')->with(['user' => $user, 'roles' => $roles]);
     }
 
     /**

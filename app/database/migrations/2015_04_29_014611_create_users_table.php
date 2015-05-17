@@ -16,11 +16,14 @@ class CreateUsersTable extends Migration {
 			$table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre',100);
+            $table->integer('rol')->unsigned();  
             $table->string('email',100)->unique();
             $table->string('password');
             $table->string("remember_token")->nullable();            
             $table->boolean('activo');
             $table->timestamps();
+
+        	$table->foreign('rol')->references('id')->on('rol')->onDelete('restrict');        	           	
         });	
 	}
 

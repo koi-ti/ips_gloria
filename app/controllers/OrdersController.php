@@ -38,11 +38,7 @@ class OrdersController extends \BaseController {
 	{
 		$order = new Order;
         $repairmans = Repairman::lists('nombre', 'id');
-    	// $products = Product::lists('nombre', 'id');
-    	// $groups = Group::lists('nombre', 'id');
-
-        // Elimino datos carrito de session
-        // Session::forget(Contract::$key_cart_products);
+    
         return View::make('core/orders/form')->with(['order' => $order, 'repairmans' => $repairmans]);	
    	}
 

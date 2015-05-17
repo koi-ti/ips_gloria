@@ -38,7 +38,7 @@
     <div class="row">
       <div class="form-group col-md-4">
         {{ Form::label('rol', 'Rol') }}
-        {{ Form::select('rol', array('A' => 'Administrador'),null, array('class' => 'form-control')) }}
+        {{ Form::select('rol', array('' => 'Seleccione') + $roles ,null, array('class' => 'form-control')) }}
       </div>
       <div class="form-group col-md-4">
         {{ Form::label('activo', 'Estado') }}

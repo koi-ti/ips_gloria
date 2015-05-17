@@ -1,14 +1,12 @@
 <?php
 
-class City extends Eloquent {
+class Role extends Eloquent {
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'ciudad';
-
-    protected $primaryKey = 'codigo';
+	protected $table = 'rol';
 
 	public $errors;
 
@@ -34,11 +32,11 @@ class City extends Eloquent {
 
 	public static function getData()
     {
-        $query = City::query();     
-         if (Input::has("nombre")) {          
-            $query->where('ciudad.nombre', 'like', '%'.Input::get("nombre").'%');
+        $query = Role::query();     
+     	if (Input::has("nombre")) {          
+            $query->where('rol.nombre', 'like', '%'.Input::get("nombre").'%');
         }   
-        $query->orderby('ciudad.nombre', 'ASC');
+        $query->orderby('rol.nombre', 'ASC');
         return $query->paginate();
     }
 
