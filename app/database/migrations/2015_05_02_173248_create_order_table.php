@@ -15,7 +15,6 @@ class CreateOrderTable extends Migration {
 		Schema::create('orden',function($table){
 			$table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('numero')->unique();  
             $table->integer('cliente')->unsigned();              
 			$table->integer('cliente_direccion')->unsigned();
             $table->integer('tecnico')->unsigned();  
@@ -25,8 +24,8 @@ class CreateOrderTable extends Migration {
             $table->integer('usuario_elaboro')->unsigned();
             $table->datetime('fecha_elaboro');
             $table->boolean('cerrada');
-            $table->integer('usuario_cierra')->unsigned();
-            $table->datetime('fecha_cierra');
+            $table->integer('usuario_cierra')->unsigned()->nullable();
+            $table->datetime('fecha_cierra')->nullable();
 
         	$table->foreign('cliente')->references('id')->on('cliente')->onDelete('restrict');        	      
         	$table->foreign('cliente_direccion')->references('id')->on('cliente_direccion')->onDelete('restrict');        	           	

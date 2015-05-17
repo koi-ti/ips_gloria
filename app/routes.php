@@ -11,7 +11,22 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
+Route::get('login', 'AuthController@showLogin');
+Route::post('login', 'AuthController@postLogin');
+
+Route::group(array('before' => 'auth'), function()
+{	
+	Route::get('/', function() { return View::make('core/index'); });
+	Route::get('logout', 'AuthController@logOut');
+
+	Route::resource('usuarios', 'UsersController');	
+	Route::resource('ordenes', 'OrdersController');	
+	Route::resource('ciudades', 'CitiesController');	
+
+	Route::resource('clientes', 'CustomersController');	
+	Route::group(array('prefix' => 'clientes'), function()	
+	{	
+		Route::post('buscar', 'CustomersController@search');
+		Route::post('direcciones', 'CustomersController@searchAddresses');
+	});
 });
