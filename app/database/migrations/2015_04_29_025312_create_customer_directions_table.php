@@ -16,20 +16,19 @@ class CreateCustomerDirectionsTable extends Migration {
 			$table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('cliente')->unsigned();
-            $table->integer('item')->unsigned();
             $table->boolean('activo');
             $table->string('nombre',100);   
             $table->string('persona',100);
             $table->string('direccion',100);
             $table->integer('ciudad')->unsigned();  
-            $table->string('telefono',50);
-            $table->string('email',50);
-            $table->integer('cupos');
-            $table->integer('disponibles');
-            $table->text('horarios');
-            $table->text('tarifas');
-            $table->double('latitud');
-            $table->double('logintud');
+            $table->string('telefono',50)->nullable();
+            $table->string('email',50)->nullable();
+            $table->integer('cupos')->nullable();
+            $table->integer('disponibles')->nullable();
+            $table->text('horarios')->nullable();
+            $table->text('tarifas')->nullable();
+            $table->double('latitud')->nullable();
+            $table->double('logintud')->nullable();
 
         	$table->foreign('ciudad')->references('codigo')->on('ciudad')->onDelete('restrict');        	           	
         	$table->foreign('cliente')->references('id')->on('cliente')->onDelete('restrict');        	           	

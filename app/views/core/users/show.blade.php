@@ -22,8 +22,8 @@
     </div>
     <div class="row">
 		<div class="form-group col-md-4">
-			<label>Perfil</label>
-			<div>{{ $user->perfil }}</div>
+			<label>Rol</label>
+			<div>{{ $role->nombre }}</div>
       	</div>
       	<div class="form-group col-md-4">
         	<label>Estado</label>
@@ -43,7 +43,7 @@
     <p>			
 		{{ Form::model($user, array('route' => array('usuarios.destroy', $user->id), 'method' => 'DELETE'), array('role' => 'form')) }}			
 			<a href="{{ route('usuarios.edit', $user->id) }}" class="btn btn-success">Editar</a>		
-			{{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
+			{{-- {{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }} --}}
 		{{ Form::close() }}
 	</p>	
 

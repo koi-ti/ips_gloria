@@ -71,7 +71,12 @@ class UsersController extends \BaseController {
         if (is_null($user)) {
             App::abort(404);   
         } 
-        return View::make('core/users/show', array('user' => $user));
+
+        $role = Role::find($user->rol);
+        if (!$role instanceof Role) {
+            App::abort(404);   
+        } 
+        return View::make('core/users/show', ['user' => $user, 'role' => $role]);
     }
 
     /**
@@ -86,7 +91,9 @@ class UsersController extends \BaseController {
         if (is_null ($user)) {
             App::abort(404);
         }
-        return View::make('core/users/form')->with('user', $user);      
+
+        $roles = Role::lists('nombre', 'id');
+        return View::make('core/users/form')->with(['user' => $user, 'roles' => $roles]);
     }
 
     /**

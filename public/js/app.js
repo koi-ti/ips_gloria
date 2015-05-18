@@ -28,7 +28,7 @@
 	            $("#cliente_nit").val('')
 	        }else{
 	            $.ajax({
-	                type: 'post',
+	                type: 'get',
 	                cache: false,
 	                dataType: 'json',
 	                data: { nit : inputVal },
@@ -72,7 +72,7 @@
         	$('#cliente_direccion').find('option:gt(0)').remove();
         	if(customer) {
 				$.ajax({
-	                type: 'post',
+	                type: 'get',
 	                cache: false,
 	                dataType: 'json',
 	                data: { cliente : customer },

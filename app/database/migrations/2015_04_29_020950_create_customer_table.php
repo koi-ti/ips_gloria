@@ -19,8 +19,8 @@ class CreateCustomerTable extends Migration {
             $table->string('nombre',100);   
             $table->integer('ciudad')->unsigned();  
             $table->string('direccion',100);
-            $table->string('telefono',50);
-            $table->string('email',50);
+            $table->string('telefono',50)->nullable();
+            $table->string('email',50)->nullable();
 
         	$table->foreign('ciudad')->references('codigo')->on('ciudad')->onDelete('restrict');        	           	
         });	

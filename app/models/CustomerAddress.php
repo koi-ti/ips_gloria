@@ -7,4 +7,8 @@ class CustomerAddress extends Eloquent {
 	 * @var string
 	 */
 	protected $table = 'cliente_direccion';
+
+    public $timestamps = false;
+
+	public static $states = array('0' => 'Inactivo', '1' => 'Activo');
 }

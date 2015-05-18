@@ -66,6 +66,8 @@
               <li>{{ HTML::linkRoute('usuarios.index', 'Usuarios') }}</li>
               <li>{{ HTML::linkRoute('roles.index', 'Roles') }}</li>
               <li>{{ HTML::linkRoute('ciudades.index', 'Ciudades') }}</li>
+              <li>{{ HTML::linkRoute('tecnicos.index', 'Técnicos') }}</li>
+              <li>{{ HTML::linkRoute('clientes.index', 'Clientes') }}</li>
               <li>{{ HTML::linkRoute('ordenes.index', 'Ordenes de servicio') }}</li>
           </ul>
         </div>
@@ -105,6 +107,6 @@
     <script src="{{ asset('js/alertify.min.js') }}"></script>
     <script src="{{ asset('js/bootbox.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-
+    <script src="{{ asset('util/list.js') }}"></script>
   </body>
 </html>

@@ -23,11 +23,17 @@ Route::group(array('before' => 'auth'), function()
 	Route::resource('roles', 'RolesController');	
 	Route::resource('ordenes', 'OrdersController');	
 	Route::resource('ciudades', 'CitiesController');	
+	Route::resource('tecnicos', 'RepairmanController');	
 
-	Route::resource('clientes', 'CustomersController');	
 	Route::group(array('prefix' => 'clientes'), function()	
 	{	
-		Route::post('buscar', 'CustomersController@search');
-		Route::post('direcciones', 'CustomersController@searchAddresses');
+		Route::get('buscar', 'CustomersController@search');
+		Route::get('direcciones', 'CustomersController@searchAddresses');
+	});
+	Route::resource('clientes', 'CustomersController');	
+
+	Route::group(array('prefix' => 'util'), function()	
+	{	
+		Route::resource('cart', 'SessionCartController');	
 	});
 });
