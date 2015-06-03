@@ -55,6 +55,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     }
 
+    public static function getPermission()
+    {
+        return Permission::where('rol',Auth::user()->rol)->where('modulo',Module::getModule('user'))->first();
+    }
+    
     public function validAndSave($data)
     {
         if ($this->isValid($data))

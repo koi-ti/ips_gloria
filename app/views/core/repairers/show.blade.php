@@ -41,11 +41,16 @@
             <label>Dirección de E-mail</label>
             <div>{{ $repairman->email }}</div> 
         </div>
+        <div class="form-group col-md-3">
+            <label>Estado</label>
+            <div>{{ $repairman->states[$repairman->activo] }}</div>
+        </div>
     </div> 
-
+    @if(@$permission->modifica)
     <div class="row">
         <div class="form-group col-md-4">
             <a href="{{ route('tecnicos.edit', $repairman->id) }}" class="btn btn-success">Editar</a>        
         </div>
     </div>
+    @endif
 @stop 

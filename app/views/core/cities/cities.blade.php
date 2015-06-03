@@ -3,6 +3,7 @@
 </div>
 <div align="center">
 	<table id="table-search-cities" class="table table-striped" style="width:50%;">
+		@if(count($cities) > 0)
 		<thead>
 			<tr>
 				<th>Nombre</th>		
@@ -15,11 +16,16 @@
 					<td>{{ $city->nombre }}</td>
 					<td nowrap="nowrap" style="text-align:right">					
 						<a href="{{ route('ciudades.show', $city->codigo) }}" class="btn btn-info">Ver</a>
-						<a href="{{ route('ciudades.edit', $city->codigo) }}" class="btn btn-primary">Editar</a>
+					    @if(@$permission->modifica)
+							<a href="{{ route('ciudades.edit', $city->codigo) }}" class="btn btn-primary">Editar</a>
+						@endif
 					</td>
 				</tr>
 			@endforeach	
 		</tbody>
+		@else
+			<tr><td align="center">No hay ningún resultado que coincida con la búsqueda.</td></tr>
+		@endif
 	</table> 
 </div>
 <script type="text/javascript">

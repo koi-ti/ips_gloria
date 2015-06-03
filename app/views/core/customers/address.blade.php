@@ -14,17 +14,19 @@
 		@if(count($list) > 0)
 			@foreach ($list as $index => $item)
 				{{--*/ $item = (object) $item; /*--}}
-				<tr>
-					<td align="center" width="20%;">
-						@include('/util/list/remove',array('layer' => $item->_layer)) 		
-					</td>
-					<td>{{ $item->add_nombre }}</td>
-					<td>{{ $item->add_persona }}</td>
-					<td>{{ $item->add_direccion }}</td>
-					<td>{{ CustomerAddress::$states[$item->add_activo] }}</td>
-					<td>{{ $item->add_ciudad_nombre }}</td>
-					<td>{{ $item->add_telefono }}</td>
-				</tr>
+				@if(@$item->_delete != 'delete')
+					<tr>
+						<td align="center" width="20%;">
+							@include('/util/list/remove',array('layer' => $item->_layer)) 		
+						</td>
+						<td>{{ $item->add_nombre }}</td>
+						<td>{{ $item->add_persona }}</td>
+						<td>{{ $item->add_direccion }}</td>
+						<td>{{ CustomerAddress::$states[$item->add_activo] }}</td>
+						<td>{{ $item->add_ciudad_nombre }}</td>
+						<td>{{ $item->add_telefono }}</td>
+					</tr>
+				@endif
 			@endforeach
 		@else
 			<tr>

@@ -32,6 +32,11 @@ class City extends Eloquent {
         return false;
     }
 
+    public static function getPermission()
+    {
+        return Permission::where('rol',Auth::user()->rol)->where('modulo',Module::getModule('city'))->first();
+    }
+    
 	public static function getData()
     {
         $query = City::query();     

@@ -32,12 +32,22 @@
         <div class="form-group col-md-3">
             <label>Factura</label>
             <div>{{ $order->factura ? 'SI' : 'NO' }}</div>
-        </div>       
+        </div> 
+        @if($order->cerrada)
+            <div class="form-group col-md-3">
+                <label>Estado</label>
+                <div style="background-color: #FA5858; color:#FFFFFF">CERRADA</div>
+            </div> 
+        @endif      
     </div>
     <div class="row">
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-9">
             <label>Daño</label>
             <div>{{ $order->dano }}</div>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Llamo</label>
+            <div>{{ $order->llamo }}</div>
         </div> 
     </div>
     <div class="row">
@@ -46,4 +56,43 @@
             <div>{{ $order->fecha_elaboro }}</div>
         </div>  
     </div>
+
+    @if(count($visits) > 0) 
+    <div class="row">
+        <div class="form-group col-md-12">
+            <table id="table-employees" class="table table-striped" align="center">
+                <thead>
+                    <tr>
+                        <th>Técnico</th>
+                        <th>Fecha inicial</th>
+                        <th>Fecha final</th>
+                        <th>Observaciones</th>
+                        <th>Pendientes</th> 
+                    </tr>   
+                </thead>                
+                <tbody>
+                    @foreach ($visits as $visit)
+                        <tr>
+                            <td>{{ $visit->tecnico_nombre }}</td>
+                            <td>{{ $visit->fecha_inicio }}</td>
+                            <td>{{ $visit->fecha_final }}</td>
+                            <td>{{ $visit->observaciones }}</td>
+                            <td>{{ $visit->pendientes }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div> 
+    </div> 
+    @endif
+
+    @if(@$permission->modifica)
+        @if(!$order->cerrada)
+        <div class="row">
+            <div class="form-group col-md-4">
+                <a href="{{ route('ordenes.edit', $order->id) }}" class="btn btn-success">Editar</a>        
+            </div>
+        </div>
+        @endif
+    @endif
 @stop 

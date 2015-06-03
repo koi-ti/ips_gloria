@@ -21,6 +21,7 @@ class CreateRepairmanTable extends Migration {
             $table->string('direccion',100);
             $table->string('telefono',50)->nullable();
             $table->string('email',50)->nullable();
+            $table->boolean('activo');
 
         	$table->foreign('ciudad')->references('codigo')->on('ciudad')->onDelete('restrict');        	           	
         });	

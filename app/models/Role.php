@@ -30,6 +30,11 @@ class Role extends Eloquent {
         return false;
     }
 
+    public static function getPermission()
+    {
+        return Permission::where('rol',Auth::user()->rol)->where('modulo',Module::getModule('role'))->first();
+    }
+
 	public static function getData()
     {
         $query = Role::query();     

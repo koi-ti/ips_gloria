@@ -2,6 +2,7 @@
 	{{ $orders->links() }}
 </div>
 <table id="table-search-products" class="table table-striped">
+	@if(count($orders) > 0)	
 	<thead>
 		<tr>
 			<th>Orden</th>		
@@ -13,18 +14,25 @@
 	</thead>     	    	
 	<tbody>
 		@foreach ($orders as $order)
-			<tr>
-				<td>{{ $order->orden_id }}</td>
+			<tr> 
+				<td @if($order->cerrada) style="background-color: #FA5858;" @endif >{{ $order->orden_id }}</td>
 				<td>{{ $order->cliente_nombre }}</td>
 				<td>{{ $order->tecnico_nombre }}</td>
 				<td>{{ $order->cliente_direccion_nombre }}</td>
 				<td nowrap="nowrap" style="text-align:right">					
-					<a href="{{ route('ordenes.show', $order->id) }}" class="btn btn-info">Ver</a>
-					{{-- <a href="{{ route('ordenes.edit', $order->id) }}" class="btn btn-primary">Editar</a> --}}
+					<a href="{{ route('ordenes.show', $order->orden_id) }}" class="btn btn-info">Ver</a>
+				    @if(@$permission->modifica)
+				    	@if(!$order->cerrada)
+							<a href="{{ route('ordenes.edit', $order->orden_id) }}" class="btn btn-primary">Editar</a>
+						@endif	
+					@endif
 				</td>
 			</tr>
 		@endforeach	
 	</tbody>
+	@else
+		<tr><td align="center">No hay ningún resultado que coincida con la búsqueda.</td></tr>
+	@endif
 </table> 
 <script type="text/javascript">
 	$(document).ready(function(){	

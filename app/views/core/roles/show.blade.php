@@ -16,10 +16,15 @@
             <div>{{ $role->nombre }}</div> 
         </div>
     </div>	
-
-    <div class="row">
-        <div class="form-group col-md-4">
-            <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-success">Editar</a>        
+    @if(@$permission->modifica)
+        <div class="row">
+            <div class="form-group col-md-4">
+                <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-success">Editar</a>        
+            </div>
         </div>
-    </div>
+
+        <div class="row">
+            {{ $htmlparents }}
+        </div>
+    @endif
 @stop 

@@ -1,14 +1,15 @@
 @extends ('core.layout')
 
 @section ('content')
-	
     <div class="row">
         <div class="form-group col-md-10">
              <h1 class="page-header">Ordenes de servicio</h1>
         </div>
-        <div class="form-group col-md-2">
-            <a href="{{ route('ordenes.create') }}" class="btn btn-success">Nueva orden</a>
-        </div>
+        @if(@$permission->adiciona)
+	        <div class="form-group col-md-2">
+	            <a href="{{ route('ordenes.create') }}" class="btn btn-success">Nueva orden</a>
+	        </div>
+        @endif
     </div> 
 
 	{{ Form::open(array('route' => 'ordenes.index', 'method' => 'POST', 'id' => 'form-search-orders'), array('role' => 'form')) }}
@@ -21,7 +22,7 @@
         </div>
         <div class="form-group col-md-6">           
             {{ Form::label('cliente_nombre', 'Nombre') }}
-            {{ Form::text('cliente_nombre', null, array('class' => 'form-control', 'disabled' => 'disabled')) }}        
+            {{ Form::text('cliente_nombre', null, array('placeholder' => 'Ingresa Nombre', 'class' => 'form-control')) }}        
         </div>
         <div class="form-group col-md-3">
             {{ Form::label('cliente_direccion', 'Dirección') }}

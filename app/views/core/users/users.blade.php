@@ -18,7 +18,9 @@
 				<td>{{ $user->states[$user->activo] }}</td>
 				<td nowrap="nowrap">					
 					<a href="{{ route('usuarios.show', $user->id) }}" class="btn btn-info">Ver</a>
-					<a href="{{ route('usuarios.edit', $user->id) }}" class="btn btn-primary">Editar</a>					
+				    @if(@$permission->modifica)
+						<a href="{{ route('usuarios.edit', $user->id) }}" class="btn btn-primary">Editar</a>					
+					@endif
 				</td>
 			</tr>
 		@endforeach

@@ -18,14 +18,21 @@ class CitiesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$data['cities'] = $cities = City::getData();
-		if(Request::ajax())
-        {
-            $data["links"] = $cities->links();
-            $cities = View::make('core.cities.cities', $data)->render();
-            return Response::json(array('html' => $cities));
-        }
-        return View::make('core.cities.index')->with($data);	
+		$permission = City::getPermission();
+        if(@$permission->consulta) {
+			$data['cities'] = $cities = City::getData();
+			if(Request::ajax())
+	        {
+	            $data["links"] = $cities->links();
+	            $cities = View::make('core.cities.cities', $data)->render();
+	            return Response::json(array('html' => $cities));
+	        }
+
+            $data['permission'] = $permission;
+	        return View::make('core.cities.index')->with($data);
+	  	}else{
+            return View::make('core.denied');   
+        }	
     }
 
 
@@ -36,8 +43,13 @@ class CitiesController extends \BaseController {
 	 */
 	public function create()
 	{
-		$city = new City;
-        return View::make('core.cities.form')->with(['city' => $city]);	
+		$permission = City::getPermission();
+        if(@$permission->adiciona) {
+			$city = new City;
+	        return View::make('core.cities.form')->with(['city' => $city]);	
+    	}else{
+            return View::make('core.denied');   
+        }
     }
 
 
@@ -80,11 +92,16 @@ class CitiesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$city = City::find($id);
-		if(!$city instanceof City) {
-			App::abort(404);	
-		}
-        return View::make('core.cities.show')->with('city', $city);	
+		$permission = City::getPermission();
+        if(@$permission->consulta) {
+			$city = City::find($id);
+			if(!$city instanceof City) {
+				App::abort(404);	
+			}
+	        return View::make('core.cities.show')->with(['city' => $city , 'permission' => $permission]);	
+		}else{
+            return View::make('core.denied');   
+        }
 	}
 
 
@@ -96,11 +113,16 @@ class CitiesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$city = City::find($id);
-		if(!$city instanceof City) {
-			App::abort(404);	
-		}
-        return View::make('core.cities.form')->with('city', $city);	
+		$permission = City::getPermission();
+        if(@$permission->modifica) {
+			$city = City::find($id);
+			if(!$city instanceof City) {
+				App::abort(404);	
+			}
+	        return View::make('core.cities.form')->with('city', $city);	
+    	}else{
+            return View::make('core.denied');   
+        }
     }
 
 

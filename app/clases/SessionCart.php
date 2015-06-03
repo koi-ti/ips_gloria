@@ -9,7 +9,8 @@ class SessionCart
 
 	public static function delItem($_index, $_key, $_template) {
 		$items = Session::get($_key);
-		unset($items[$_index]);
+		// Change item
+		$items[$_index]['_delete'] = 'delete';
 		Session::set($_key, $items);
 		return SessionCart::show($_key,$_template);
 	}

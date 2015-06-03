@@ -31,7 +31,9 @@ class CreateCustomerDirectionsTable extends Migration {
             $table->double('logintud')->nullable();
 
         	$table->foreign('ciudad')->references('codigo')->on('ciudad')->onDelete('restrict');        	           	
-        	$table->foreign('cliente')->references('id')->on('cliente')->onDelete('restrict');        	           	
+        	$table->foreign('cliente')->references('id')->on('cliente')->onDelete('restrict'); 
+
+        	$table->softDeletes();       	           	
         });		
 	}
 

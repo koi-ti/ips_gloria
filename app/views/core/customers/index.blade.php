@@ -6,16 +6,18 @@
         <div class="form-group col-md-10">
              <h1 class="page-header">Clientes</h1>
         </div>
-        <div class="form-group col-md-2">
-            <a href="{{ route('clientes.create') }}" class="btn btn-success">Nuevo cliente</a>
-        </div>
+        @if(@$permission->adiciona)
+	        <div class="form-group col-md-2">
+	            <a href="{{ route('clientes.create') }}" class="btn btn-success">Nuevo cliente</a>
+	        </div>
+	  	@endif
     </div> 
 
 	{{ Form::open(array('method' => 'POST', 'id' => 'form-search-customers'), array('role' => 'form')) }}
 	<div class="row">	
        <div class="form-group col-md-4">           
-            {{ Form::label('cedula', 'Cédula') }}
-            {{ Form::text('cedula', null, array('placeholder' => 'Ingresa Cédula', 'class' => 'form-control', 'maxlength' => '15')) }}        
+            {{ Form::label('nit', 'Nit') }}
+            {{ Form::text('nit', null, array('placeholder' => 'Ingresa Nit', 'class' => 'form-control', 'maxlength' => '15')) }}        
         </div>
         <div class="form-group col-md-7">           
             {{ Form::label('nombre', 'Nombre') }}
@@ -38,7 +40,7 @@
 				window.Misc.search('form-search-customers', 'customers', '/clientes'); 
 			},
 			clearSearch : function(){
-    			$('#cedula').val('')
+    			$('#nit').val('')
     			$('#nombre').val('')
 			}
 		}

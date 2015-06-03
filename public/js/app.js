@@ -147,7 +147,78 @@
 				$('#error-app').modal('show');
 				$("#error-app-label").empty().html("No hay respuesta del servidor - Consulte al administrador.");				
 			});
-     	}	
+     	}
+
+     	/**
+        * search children permits
+        */
+        , childrenPermits: function (module, nivel1, role) {
+			$.ajax({	
+				url: document.url + '/util/permisos/nivel1',		
+				type : 'get',
+				data: { 'module': module, 'nivel1': nivel1, 'role': role},	
+				datatype: "html"
+			})
+			.done(function(data) {		
+				$("#parent_"+module).empty().html(data.html)
+			})
+			.fail(function(jqXHR, ajaxOptions, thrownError)
+			{
+				$('#error-app').modal('show');
+				$("#error-app-label").empty().html("No hay respuesta del servidor - Consulte al administrador.");				
+			});
+     	}
+
+     	/**
+        * Change permission
+        */
+        , changePermission: function (module, nivel1, role, permission) {
+            _this = this;
+			$.ajax({	
+				url: document.url + '/util/permisos/cambiar',		
+				type : 'post',
+				data: { '_token': $('meta[name="csrf-token"]').attr('content'), 'module': module, 'nivel1': nivel1, 'role': role, 'permission': permission},	
+				datatype: "html"
+			})
+			.done(function(data) {		
+				if(data.success == true) {
+            		_this.childrenPermits( module, nivel1, role );
+                }
+			})
+			.fail(function(jqXHR, ajaxOptions, thrownError)
+			{
+				$('#error-app').modal('show');
+				$("#error-app-label").empty().html("No hay respuesta del servidor - Consulte al administrador.");				
+			});
+     	} 
+
+     	/**
+        * Search customer
+        */
+        , searchCustomers: function (nit, nombre) {
+            _this = this;
+            if((nit!=undefined && nit!='') || (nombre!=undefined && nombre!='')){
+	            $.ajax({    
+					url: document.url + '/clientes/filtrar',		
+	                type : 'get',
+	                data: {'nit' : nit, 'nombre': nombre}, 
+	                datatype: "html",
+	                beforeSend: function() {
+	                    $('#loading-app').modal('show')
+	                }
+	            })
+	            .done(function(data) {      
+	                $('#loading-app').modal('hide')
+	                $('#customers').empty().html(data.html)
+	            })
+	            .fail(function(jqXHR, ajaxOptions, thrownError)
+	            {
+	                $('#loading-app').modal('hide');
+	                $('#error-app').modal('show');
+	                $("#error-app-label").empty().html("No hay respuesta del servidor - Consulte al administrador.");               
+	            });
+	     	}
+     	}		
     };
     window.Misc = new Misc();
     window.Misc.initialize();

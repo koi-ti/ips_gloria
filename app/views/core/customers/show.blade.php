@@ -74,9 +74,11 @@
     </div> 
     @endif 
 
+    @if(@$permission->modifica)
     <div class="row">
         <div class="form-group col-md-4">
             <a href="{{ route('clientes.edit', $customer->id) }}" class="btn btn-success">Editar</a>        
         </div>
     </div>
+    @endif
 @stop 

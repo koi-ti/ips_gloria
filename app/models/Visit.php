@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class CustomerAddress extends Eloquent {
-
+class Visit extends Eloquent {
+	
     use SoftDeletingTrait;
 
     protected $dates = ['deleted_at'];
@@ -12,9 +12,7 @@ class CustomerAddress extends Eloquent {
 	 *
 	 * @var string
 	 */
-	protected $table = 'cliente_direccion';
+	protected $table = 'visita';
 
-    public $timestamps = false;
-
-	public static $states = array('0' => 'Inactivo', '1' => 'Activo');
+	public $timestamps = false;
 }

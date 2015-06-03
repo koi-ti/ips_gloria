@@ -10,7 +10,7 @@ class Customer extends Eloquent {
 
 	public $errors;
 
-    protected $perPage = 1;
+    protected $perPage = 6;
 
     public $timestamps = false;
 
@@ -46,6 +46,11 @@ class Customer extends Eloquent {
         return false;
     }
 
+    public static function getPermission()
+    {
+        return Permission::where('rol',Auth::user()->rol)->where('modulo',Module::getModule('customer'))->first();
+    }
+    
 	public static function getData()
     {
         $query = Customer::query();     

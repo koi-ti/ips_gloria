@@ -18,14 +18,21 @@ class UsersController extends \BaseController {
     */
     public function index()
     {
-        $data["users"] = $users = User::where('id', '!=', '1')->paginate();                
-        if(Request::ajax())
-        {
-            $data["links"] = $users->links();
-            $users = View::make('core/users/users', $data)->render();
-            return Response::json(array('html' => $users));
+        $permission = User::getPermission();
+        if(@$permission->consulta) {
+            $data["users"] = $users = User::where('id', '!=', '1')->paginate();                
+            if(Request::ajax())
+            {
+                $data["links"] = $users->links();
+                $users = View::make('core/users/users', $data)->render();
+                return Response::json(array('html' => $users));
+            }
+
+            $data['permission'] = $permission;
+            return View::make('core/users/index')->with($data);
+        }else{
+            return View::make('core.denied');   
         }
-        return View::make('core/users/index')->with($data);
     }
 
     /**
@@ -35,10 +42,15 @@ class UsersController extends \BaseController {
     */
     public function create()
     {
-        $user = new User;
-        $roles = Role::lists('nombre', 'id');
+        $permission = User::getPermission();
+        if(@$permission->adiciona) {
+            $user = new User;
+            $roles = Role::lists('nombre', 'id');
 
-        return View::make('core/users/form')->with(['user' => $user, 'roles' => $roles]);
+            return View::make('core/users/form')->with(['user' => $user, 'roles' => $roles]);
+        }else{
+            return View::make('core.denied');   
+        }
     }
 
     /**
@@ -67,16 +79,21 @@ class UsersController extends \BaseController {
     * @return Response
     */
     public function show($id) { 
-        $user = User::find($id);
-        if (is_null($user)) {
-            App::abort(404);   
-        } 
+        $permission = User::getPermission();
+        if(@$permission->consulta) {
+            $user = User::find($id);
+            if (is_null($user)) {
+                App::abort(404);   
+            } 
 
-        $role = Role::find($user->rol);
-        if (!$role instanceof Role) {
-            App::abort(404);   
-        } 
-        return View::make('core/users/show', ['user' => $user, 'role' => $role]);
+            $role = Role::find($user->rol);
+            if (!$role instanceof Role) {
+                App::abort(404);   
+            } 
+            return View::make('core/users/show', ['user' => $user, 'role' => $role, 'permission' => $permission]);
+        }else{
+            return View::make('core.denied');   
+        }
     }
 
     /**
@@ -87,13 +104,18 @@ class UsersController extends \BaseController {
     */
     public function edit($id)
     {
-        $user = User::find($id);
-        if (is_null ($user)) {
-            App::abort(404);
-        }
+        $permission = User::getPermission();
+        if(@$permission->modifica) {
+            $user = User::find($id);
+            if (is_null ($user)) {
+                App::abort(404);
+            }
 
-        $roles = Role::lists('nombre', 'id');
-        return View::make('core/users/form')->with(['user' => $user, 'roles' => $roles]);
+            $roles = Role::lists('nombre', 'id');
+            return View::make('core/users/form')->with(['user' => $user, 'roles' => $roles]);
+        }else{
+            return View::make('core.denied');   
+        }
     }
 
     /**

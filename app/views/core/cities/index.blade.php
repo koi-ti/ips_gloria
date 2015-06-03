@@ -6,9 +6,11 @@
         <div class="form-group col-md-10">
              <h1 class="page-header">Ciudades</h1>
         </div>
-        <div class="form-group col-md-2">
-            <a href="{{ route('ciudades.create') }}" class="btn btn-success">Nueva ciudad</a>
-        </div>
+        @if(@$permission->adiciona)
+	        <div class="form-group col-md-2">
+	            <a href="{{ route('ciudades.create') }}" class="btn btn-success">Nueva ciudad</a>
+	        </div>
+        @endif
     </div> 
 
 	{{ Form::open(array('route' => 'ordenes.index', 'method' => 'POST', 'id' => 'form-search-cities'), array('role' => 'form')) }}

@@ -58,6 +58,10 @@
             {{ Form::label('email', 'Dirección de E-mail') }}
             {{ Form::text('email', null, array('placeholder' => 'Ingresa E-mail', 'class' => 'form-control', 'maxlength' => '50')) }}
         </div>
+        <div class="form-group col-md-3">
+            {{ Form::label('activo', 'Estado') }}
+            {{ Form::select('activo', array('1' => 'Activo', '0' => 'Inactivo'),null, array('class' => 'form-control')) }}
+        </div> 
     </div>
 
 	{{ Form::close() }}

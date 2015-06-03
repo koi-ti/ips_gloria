@@ -28,12 +28,27 @@ Route::group(array('before' => 'auth'), function()
 	Route::group(array('prefix' => 'clientes'), function()	
 	{	
 		Route::get('buscar', 'CustomersController@search');
+		Route::get('filtrar', 'CustomersController@filtrar');
 		Route::get('direcciones', 'CustomersController@searchAddresses');
 	});
 	Route::resource('clientes', 'CustomersController');	
 
 	Route::group(array('prefix' => 'util'), function()	
 	{	
-		Route::resource('cart', 'SessionCartController');	
+		Route::resource('cart', 'SessionCartController');
+
+		Route::group(array('prefix' => 'permisos'), function()	
+		{	
+			Route::get('nivel1', 'RolesController@nivel1');	
+			Route::post('cambiar', 'RolesController@change');	
+		});
 	});
+
+	Route::group(array('prefix' => 'reportes'), function()	
+	{	
+		Route::post('ordenes', 'ReportsController@ordenes');	
+		Route::post('ordenessinvisitas', 'ReportsController@ordenessinvisitas');	
+		Route::post('ordenesabiertas', 'ReportsController@ordenesabiertas');	
+	});
+	Route::resource('reportes', 'ReportsController', ['only' => ['index']]);
 });

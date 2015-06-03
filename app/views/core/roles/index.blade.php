@@ -6,9 +6,11 @@
         <div class="form-group col-md-10">
              <h1 class="page-header">Roles</h1>
         </div>
+        @if(@$permission->adiciona)
         <div class="form-group col-md-2">
             <a href="{{ route('roles.create') }}" class="btn btn-success">Nuevo rol</a>
         </div>
+        @endif
     </div> 
 
 	{{ Form::open(array('route' => 'roles.index', 'method' => 'POST', 'id' => 'form-search-roles'), array('role' => 'form')) }}

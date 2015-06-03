@@ -18,14 +18,21 @@ class RepairmanController extends \BaseController {
 	 */
 	public function index()
 	{
-		$data['repairers'] = $repairers = Repairman::getData();
-		if(Request::ajax())
-        {
-            $data["links"] = $repairers->links();
-            $repairers = View::make('core.repairers.repairers', $data)->render();
-            return Response::json(array('html' => $repairers));
+		$permission = Repairman::getPermission();
+        if(@$permission->consulta) {
+			$data['repairers'] = $repairers = Repairman::getData();
+			if(Request::ajax())
+	        {
+	            $data["links"] = $repairers->links();
+	            $repairers = View::make('core.repairers.repairers', $data)->render();
+	            return Response::json(array('html' => $repairers));
+	        }
+
+            $data['permission'] = $permission;
+	        return View::make('core.repairers.index')->with($data);	
+    	}else{
+            return View::make('core.denied');   
         }
-        return View::make('core.repairers.index')->with($data);	
     }
 
 
@@ -36,10 +43,15 @@ class RepairmanController extends \BaseController {
 	 */
 	public function create()
 	{
-		$repairman = new Repairman;
-        $cities = City::lists('nombre', 'codigo');
+		$permission = Repairman::getPermission();
+        if(@$permission->adiciona) {
+			$repairman = new Repairman;
+	        $cities = City::lists('nombre', 'codigo');
 
-        return View::make('core.repairers.form')->with(['repairman' => $repairman, 'cities' => $cities]);		
+	        return View::make('core.repairers.form')->with(['repairman' => $repairman, 'cities' => $cities]);		
+   		}else{
+            return View::make('core.denied');   
+        }
    	}
 
 
@@ -82,16 +94,21 @@ class RepairmanController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$repairman = Repairman::find($id);
-		if(!$repairman instanceof Repairman) {
-			App::abort(404);	
-		}
+		$permission = Repairman::getPermission();
+        if(@$permission->consulta) {
+			$repairman = Repairman::find($id);
+			if(!$repairman instanceof Repairman) {
+				App::abort(404);	
+			}
 
-		$city = City::find($repairman->ciudad);
-		if(!$city instanceof City) {
-			App::abort(404);	
-		}
-        return View::make('core.repairers.show')->with(['repairman' => $repairman, 'city' => $city]);
+			$city = City::find($repairman->ciudad);
+			if(!$city instanceof City) {
+				App::abort(404);	
+			}
+	        return View::make('core.repairers.show')->with(['repairman' => $repairman, 'city' => $city, 'permission' => $permission]);
+		}else{
+            return View::make('core.denied');   
+        }
 	}
 
 
@@ -103,13 +120,18 @@ class RepairmanController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$repairman = Repairman::find($id);
-		if(!$repairman instanceof Repairman) {
-			App::abort(404);	
-		}
-        $cities = City::lists('nombre', 'codigo');
+		$permission = Repairman::getPermission();
+        if(@$permission->modifica) {
+			$repairman = Repairman::find($id);
+			if(!$repairman instanceof Repairman) {
+				App::abort(404);	
+			}
+	        $cities = City::lists('nombre', 'codigo');
 
-        return View::make('core.repairers.form')->with(['repairman' => $repairman, 'cities' => $cities]);		
+	        return View::make('core.repairers.form')->with(['repairman' => $repairman, 'cities' => $cities]);		
+    	}else{
+            return View::make('core.denied');   
+        }
     }
 
 

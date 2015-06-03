@@ -40,11 +40,12 @@
         	<div>{{ $user->updated_at }}</div>
         </div>  
     </div>
+    @if(@$permission->modifica)
     <p>			
 		{{ Form::model($user, array('route' => array('usuarios.destroy', $user->id), 'method' => 'DELETE'), array('role' => 'form')) }}			
 			<a href="{{ route('usuarios.edit', $user->id) }}" class="btn btn-success">Editar</a>		
 			{{-- {{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }} --}}
 		{{ Form::close() }}
-	</p>	
-
+	</p>
+	@endif	
 @stop

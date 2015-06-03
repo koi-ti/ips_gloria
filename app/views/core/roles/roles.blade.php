@@ -3,6 +3,7 @@
 </div>
 <div align="center">
 	<table id="table-search-roles" class="table table-striped" style="width:50%;">
+		@if(count($roles) > 0)
 		<thead>
 			<tr>
 				<th>Nombre</th>		
@@ -15,11 +16,16 @@
 					<td>{{ $rol->nombre }}</td>
 					<td nowrap="nowrap" style="text-align:right">					
 						<a href="{{ route('roles.show', $rol->id) }}" class="btn btn-info">Ver</a>
-						<a href="{{ route('roles.edit', $rol->id) }}" class="btn btn-primary">Editar</a>
+					    @if(@$permission->modifica)
+							<a href="{{ route('roles.edit', $rol->id) }}" class="btn btn-primary">Editar</a>
+						@endif
 					</td>
 				</tr>
 			@endforeach	
 		</tbody>
+		@else
+			<tr><td align="center">No hay ningún resultado que coincida con la búsqueda.</td></tr>
+		@endif
 	</table> 
 </div>
 <script type="text/javascript">

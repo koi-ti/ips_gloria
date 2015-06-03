@@ -27,7 +27,9 @@ class CreateVisitTable extends Migration {
 
         	$table->foreign('orden')->references('id')->on('orden')->onDelete('restrict');        	           	
         	$table->foreign('tecnico')->references('id')->on('tecnico')->onDelete('restrict');   
-        	$table->foreign('usuario_elaboro')->references('id')->on('usuario')->onDelete('restrict');       	
+        	$table->foreign('usuario_elaboro')->references('id')->on('usuario')->onDelete('restrict'); 
+
+        	$table->softDeletes();       	           	      	
         });	
 	}
 

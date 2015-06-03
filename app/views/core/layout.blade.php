@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -17,6 +18,7 @@
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/alertify.core.css') }}" rel="stylesheet">
     <link href="{{ asset('css/alertify.default.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{{ asset('bootstrap/css/dashboard.css') }}" rel="stylesheet">
@@ -69,6 +71,7 @@
               <li>{{ HTML::linkRoute('tecnicos.index', 'Técnicos') }}</li>
               <li>{{ HTML::linkRoute('clientes.index', 'Clientes') }}</li>
               <li>{{ HTML::linkRoute('ordenes.index', 'Ordenes de servicio') }}</li>
+              <li>{{ HTML::linkRoute('reportes.index', 'Reportes') }}</li>
           </ul>
         </div>
         
@@ -107,6 +110,7 @@
     <script src="{{ asset('js/alertify.min.js') }}"></script>
     <script src="{{ asset('js/bootbox.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ asset('util/list.js') }}"></script>
   </body>
 </html>

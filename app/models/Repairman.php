@@ -14,7 +14,9 @@ class Repairman extends Eloquent {
 
     public $timestamps = false;
 
-    protected $fillable = array('cedula', 'nombre', 'direccion', 'ciudad', 'telefono', 'email');
+    protected $fillable = array('cedula', 'nombre', 'direccion', 'ciudad', 'telefono', 'email', 'activo');
+
+    public $states = array('0' => 'Inactivo', '1' => 'Activo');
 
     public function isValid($data)
     {
@@ -40,6 +42,11 @@ class Repairman extends Eloquent {
         return false;
     }
 
+    public static function getPermission()
+    {
+        return Permission::where('rol',Auth::user()->rol)->where('modulo',Module::getModule('repairman'))->first();
+    }
+    
 	public static function getData()
     {
         $query = Repairman::query();     

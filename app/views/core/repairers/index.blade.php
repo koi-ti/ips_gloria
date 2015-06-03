@@ -6,9 +6,11 @@
         <div class="form-group col-md-10">
              <h1 class="page-header">Técnicos</h1>
         </div>
-        <div class="form-group col-md-2">
-            <a href="{{ route('tecnicos.create') }}" class="btn btn-success">Nuevo técnico</a>
-        </div>
+        @if(@$permission->adiciona)
+	        <div class="form-group col-md-2">
+	            <a href="{{ route('tecnicos.create') }}" class="btn btn-success">Nuevo técnico</a>
+	        </div>
+        @endif
     </div> 
 
 	{{ Form::open(array('route' => 'roles.index', 'method' => 'POST', 'id' => 'form-search-repairers'), array('role' => 'form')) }}
