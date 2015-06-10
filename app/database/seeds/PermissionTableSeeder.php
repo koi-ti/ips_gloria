@@ -70,5 +70,23 @@ class PermissionTableSeeder extends Seeder {
        		'otrouno' => true,
        		'otrodos' => true
        	]);
+
+              Permission::create([
+                     'rol' => 1,
+                     'modulo' => 7,
+                     'consulta' => true
+              ]);
+
+              Permission::create([
+                     'rol' => 1,
+                     'modulo' => 8,
+                     'consulta' => true
+              ]);
+
+              Permission::create([
+                     'rol' => 1,
+                     'modulo' => 9,
+                     'consulta' => true
+              ]);
     }
 }

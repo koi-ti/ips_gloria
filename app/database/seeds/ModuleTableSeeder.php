@@ -34,5 +34,20 @@ class ModuleTableSeeder extends Seeder {
        		'nombre' => 'Orden de servicio',
        		'nivel1' =>  6
        	]);
+
+            Module::create([
+                  'nombre' => 'Reporte Ordenes',
+                  'nivel1' =>  7
+            ]);
+
+            Module::create([
+                  'nombre' => 'Reporte Ordenes abiertas',
+                  'nivel1' =>  8
+            ]);
+
+            Module::create([
+                  'nombre' => 'Reporte Ordenes abiertas sin visitas',
+                  'nivel1' =>  9
+            ]);
     }
 }

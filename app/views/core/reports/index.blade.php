@@ -4,6 +4,8 @@
 	
 	<h1 class="page-header">Reportes</h1>
 	<div class="panel-group" id="accordion-reportes" role="tablist" aria-multiselectable="true">
+		{{--*/ $permission = Report::getPermission('reportorder'); /*--}}        
+		@if(@$permission->consulta) 
 		<div class="panel panel-default">
 			<div class="panel-heading" role="tab" id="headingFour">
 				<h4 class="panel-title">
@@ -38,6 +40,10 @@
 				</div>
 			</div>
 		</div>
+		@endif
+
+		{{--*/ $permission = Report::getPermission('reportopenorder'); /*--}}        
+		@if(@$permission->consulta)
 		<div class="panel panel-default">
 			<div class="panel-heading" role="tab" id="headingFive">
 				<h4 class="panel-title">
@@ -91,6 +97,10 @@
 				</div>
 			</div>
 		</div>
+		@endif
+
+		{{--*/ $permission = Report::getPermission('reportoutvisit'); /*--}}        
+		@if(@$permission->consulta)
 		<div class="panel panel-default">
 			<div class="panel-heading" role="tab" id="headingOne">
 				<h4 class="panel-title">
@@ -125,6 +135,7 @@
 				</div>
 			</div>
 		</div>	
+		@endif
 	</div>
 
     <script type="text/javascript">
