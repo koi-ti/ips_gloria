@@ -2,11 +2,11 @@
 
 <?php
     if ($customer->exists):
-        $form_data = array('route' => array('clientes.update', $customer->id), 'method' => 'PATCH', 'id' => 'form-add-customer');
+        $form_data = array('route' => array('pacientes.update', $customer->id), 'method' => 'PATCH', 'id' => 'form-add-customer');
         $action    = 'Editar';
         $method = 'PATCH';
     else:
-        $form_data = array('route' => 'clientes.store', 'method' => 'POST', 'id' => 'form-add-customer');
+        $form_data = array('route' => 'pacientes.store', 'method' => 'POST', 'id' => 'form-add-customer');
         $action    = 'Crear';
         $method = 'POST';
     endif;
@@ -15,31 +15,86 @@
 @section ('content')
     <div class="row">
         <div class="form-group col-md-10">
-             <h1 class="page-header">Clientes</h1>
+             <h1 class="page-header">Pacientes</h1>
         </div>
         <div class="form-group col-md-2">
-            <a href="{{ route('clientes.index') }}" class="btn btn-info">Regresar</a>
+            <a href="{{ route('pacientes.index') }}" class="btn btn-info">Regresar</a>
         </div>
     </div>  
   	<div id="validation-errors-customer" style="display: none"></div>
 
     <div align="center">
-        {{ Form::button($action . ' cliente', array('type' => 'button','class' => 'btn btn-success', 'id' => 'btn-submit-customer' )) }}        
+        {{ Form::button($action . ' pacientes', array('type' => 'button','class' => 'btn btn-success', 'id' => 'btn-submit-customer' )) }}        
     </div>
  	{{ Form::model($customer, $form_data, array('role' => 'form')) }}
   	<div class="row">
-        <div class="form-group col-md-4">           
-            {{ Form::label('nit', 'Nit') }}
-            {{ Form::text('nit', null, array('placeholder' => 'Ingresa Nit', 'class' => 'form-control', 'maxlength' => '15')) }}        
+        <div class="form-group col-md-3">           
+            {{ Form::label('cedula', 'Cédula') }}
+            {{ Form::text('cedula', null, array('placeholder' => 'Ingrese cédula de ciudadania', 'class' => 'form-control', 'maxlength' => '15')) }}        
         </div>
-        <div class="form-group col-md-7">           
+        <div class="form-group col-md-6">           
             {{ Form::label('nombre', 'Nombre') }}
-            {{ Form::text('nombre', null, array('placeholder' => 'Ingresa Nombre', 'class' => 'form-control', 'maxlength' => '100')) }}
+            {{ Form::text('nombre', null, array('placeholder' => 'Ingrese Nombre', 'class' => 'form-control', 'maxlength' => '100')) }}
+        </div>
+
+        <div class="form-group col-md-3">
+            @if($customer->exists)
+                <div class="short-div">
+                    <img src="{{ $customer->imagen ? URL::asset($customer->imagen) : URL::asset('images/default-avatar.png') }}" class="img-responsive" width="100" height="auto">       
+                </div>
+            @endif
         </div>
     </div>
 
     <div class="row">
-        <div class="form-group col-md-4">           
+        <div class="form-group col-md-3">
+            {{ Form::label('fecha_nacimiento', 'Fecha nacimiento') }}
+            <div class="input-append date"> 
+                {{ Form::text('fecha_nacimiento', null, array('placeholder' => 'yyyy-mm-dd', 'class' => 'form-control')) }}        
+            </div>
+        </div> 
+        <div class="form-group col-md-3">           
+            {{ Form::label('edad', 'Edad') }}
+            <div><span class="label label-primary" id="div_edad"></span></div>           
+        </div> 
+        <div class="form-group col-md-3">           
+            {{ Form::label('lugar_nacimiento', 'Lugar nacimiento') }}
+            {{ Form::text('lugar_nacimiento', null, array('placeholder' => 'Lugar nacimiento', 'class' => 'form-control', 'maxlength' => '200')) }}        
+        </div> 
+        <div class="form-group col-md-3">           
+            {{ Form::label('nacionalidad', 'Nacionalidad') }}
+            {{ Form::text('nacionalidad', null, array('placeholder' => 'Nacionalidad', 'class' => 'form-control', 'maxlength' => '200')) }}        
+        </div>    
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-3">           
+            {{ Form::label('escolaridad', 'Escolaridad') }}
+            {{ Form::text('escolaridad', null, array('placeholder' => 'Ingrese escolaridad', 'class' => 'form-control', 'maxlength' => '200')) }}        
+        </div>
+        <div class="form-group col-md-3">           
+            {{ Form::label('profesion', 'Profesión') }}
+            {{ Form::text('profesion', null, array('placeholder' => 'Ingrese profesión', 'class' => 'form-control', 'maxlength' => '200')) }}        
+        </div>
+        <div class="form-group col-md-3">           
+            {{ Form::label('oficio', 'Oficio') }}
+            {{ Form::text('oficio', null, array('placeholder' => 'Ingrese oficio', 'class' => 'form-control', 'maxlength' => '200')) }}        
+        </div>   
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-3">
+            {{ Form::label('estadocivil', 'Estado civil') }}
+            {{ Form::select('estadocivil', Customer::$maritalstatus,null, array('class' => 'form-control')) }}
+        </div>   
+        <div class="form-group col-md-3">
+            {{ Form::label('sexo', 'Sexo') }}
+            {{ Form::select('sexo', Customer::$sex,null, array('class' => 'form-control')) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-5">           
             {{ Form::label('direccion', 'Dirección') }}
             {{ Form::text('direccion', null, array('placeholder' => 'Ingresa Dirección', 'class' => 'form-control', 'maxlength' => '100')) }}        
         </div>
@@ -52,71 +107,39 @@
             {{ Form::text('telefono', null, array('placeholder' => 'Ingresa Teléfono', 'class' => 'form-control', 'maxlength' => '50')) }}        
         </div>       
     </div>
-
-    <div class="row">
-        <div class="form-group col-md-4">
-            {{ Form::label('email', 'Dirección de E-mail') }}
-            {{ Form::text('email', null, array('placeholder' => 'Ingresa E-mail', 'class' => 'form-control', 'maxlength' => '50')) }}
-        </div>
-    </div>
 	{{ Form::close() }}
     
-    <table class="table table-striped" align="center">
-        <tr>
-            <th style="text-align:center">Direcciones Cliente</th>
-        <tr> 
-        <tr><td>
-        {{ Form::open(array('route' => 'util.cart.store', 'method' => 'POST', 'id' => 'form-cart-customer-address')) }}
+    @if($customer->exists)
+        {{ Form::open(array('route' => 'pacientes.file','files' => true)) }}
+        <div class="panel-footer">
             <div class="row">
-                {{ Form::hidden('_key', Customer::$key_cart_address) }}
-                {{ Form::hidden('_template', Customer::$template_cart_address) }}
-                {{ Form::hidden('_layer', Customer::$layer_cart_address) }}
-                <div class="form-group col-md-3">
-                    {{ Form::label('add_nombre', 'Nombre') }}
-                    {{ Form::text('add_nombre', null, array('placeholder' => 'Nombre', 'class' => 'form-control', 'maxlength' => '100')) }}        
-                </div>
-                <div class="form-group col-md-3">
-                    {{ Form::label('add_persona', 'Persona') }}
-                    {{ Form::text('add_persona', null, array('placeholder' => 'Persona', 'class' => 'form-control', 'maxlength' => '100')) }}        
-                </div>
-                <div class="form-group col-md-3">
-                    {{ Form::label('add_direccion', 'Dirección') }}
-                    {{ Form::text('add_direccion', null, array('placeholder' => 'Dirección', 'class' => 'form-control', 'maxlength' => '100')) }}        
-                </div>
-                <div class="form-group col-md-2">
-                    {{ Form::label('add_activo', 'Estado') }}
-                    {{ Form::select('add_activo', CustomerAddress::$states ,1, array('class' => 'form-control')) }}
-                </div>
+                <div class="form-group col-md-4">
+                    {{ Form::hidden('id', $customer->id) }}
+                    {{ Form::label('imagen', 'Imagen') }}
+                    {{ Form::file('imagen') }}
+                </div> 
+                <div class="form-group col-md-4">
+                    {{ Form::button('Actualizar imagen', array('type' => 'submit','class' => 'btn btn-success')) }}        
+                </div>        
             </div>
-            <div class="row">
-                <div class="form-group col-md-3">
-                    {{ Form::label('add_ciudad', 'Ciudad') }}
-                    {{ Form::select('add_ciudad', array('' => 'Seleccione') + $cities ,null, array('class' => 'form-control', 'id' => 'add_ciudad')) }}
-                </div>
-                <div class="form-group col-md-3">           
-                    {{ Form::label('add_telefono', 'Teléfono') }}
-                    {{ Form::text('add_telefono', null, array('placeholder' => 'Teléfono', 'class' => 'form-control', 'maxlength' => '50')) }}        
-                </div>
-                <div class="form-group col-md-1">
-                    {{ Form::hidden('add_id', 0) }}
-                    {{ Form::hidden('add_ciudad_nombre', '',array('id' => 'add_ciudad_nombre')) }}
-                    <label><span>&nbsp;</span></label>
-                    <button type="submit" id="btn-customer-add-address" class="btn btn-default btn-md">
-                        <span class="glyphicon glyphicon-plus-sign"></span>
-                    </button>
-                </div>
-            </div>
-        {{ Form::close() }}
-        </td></tr>
-        <tr><td>
-        <div id="{{ Customer::$layer_cart_address }}">
-            {{ $html_address }}
         </div>
-        </td></tr>
-    </table>
-    
+        {{ Form::close() }}
+    @endif
+
     <script type="text/javascript">
         $(function() {
+
+            $("#fecha_nacimiento").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "yy-mm-dd"              
+            })
+
+            $("#fecha_nacimiento").change(function() {
+                window.Misc.calcularEdad($("#fecha_nacimiento").val()); 
+            });
+            window.Misc.calcularEdad($("#fecha_nacimiento").val()); 
+
             $("#btn-submit-customer").click(function() {
                 $("#form-add-customer").submit();
             });
@@ -140,7 +163,7 @@
                             $("#validation-errors-customer").append(data.errors);
                             $("#validation-errors-customer").show();
                         }else{
-                            window.location="{{URL::to('clientes/"+data.customer.id+"')}}";
+                            window.location="{{URL::to('pacientes/"+data.customer.id+"')}}";
                         }
                     },
                     error: function(xhr, textStatus, thrownError) {
@@ -150,34 +173,6 @@
                 });
                 return false;
             });     
-            
-
-            $("#add_ciudad").change(function() {
-                $("#add_ciudad_nombre").val($("#add_ciudad option:selected").text())
-            });
-
-            $('#form-cart-customer-address').on('submit', function(event){                             
-                var url = $(this).attr('action')
-                event.preventDefault();
-
-                if($("#add_nombre").val() == ''){
-                    alertify.error("Por favor ingrese nombre.");
-                    return
-                }
-                if($("#add_persona").val() == ''){
-                    alertify.error("Por favor ingrese persona.");
-                    return
-                }
-                if($("#add_direccion").val() == ''){
-                    alertify.error("Por favor ingrese dirección.");
-                    return
-                }
-                if(!$.isNumeric($("#add_ciudad").val())){
-                    alertify.error("Por favor seleccione ciudad.");
-                    return
-                }
-                utilList.store(url, $('#form-cart-customer-address').serialize() ,'customer-list-address')
-            });
         });
     </script>
 @stop

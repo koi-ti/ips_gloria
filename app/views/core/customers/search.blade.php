@@ -9,17 +9,17 @@
 	<tbody>
 		@foreach ($customers as $customer)
 			<tr>
-				<td><a href="#" id="set_customer_{{ $customer->nit }}">{{ $customer->nit }}</a></td>
+				<td><a href="#" id="set_customer_{{ $customer->cedula }}">{{ $customer->cedula }}</a></td>
 				<td>{{ $customer->nombre }}</td>
 			</tr>
 			<script type="text/javascript">
 				$(document).ready(function(){	
-					$("#set_customer_{{ $customer->nit }}").click(function()
+					$("#set_customer_{{ $customer->cedula }}").click(function()
 					{
-						$("#cliente_nit").val("{{ $customer->nit }}");
+						$("#cliente_cedula").val("{{ $customer->cedula }}");
 						$("#cliente_nombre").val("{{ $customer->nombre }}");
+						$("#cliente_imagen").attr("src", "{{ $customer->imagen ? URL::asset($customer->imagen) : URL::asset('images/default-avatar.png') }}")
 						$("#cliente").val("{{ $customer->id }}");
-						window.Misc.searchCustomerAddress("{{ $customer->id }}");
 						$('#customers').empty();
 						return false;
 					});

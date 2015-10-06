@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
-    <title>Security Access Software</title>
+    <title>IPS :: Software</title>
     {{--*/ 
       $background = (Request::getHost() == 'duitama.gruponaturalpower.in') ? '#A9F5BC' : '';
     /*--}}
@@ -49,7 +49,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ URL::to('/') }}">Security Access</a>
+          <a class="navbar-brand" href="{{ URL::to('/') }}">IPS :: Salud Ocupacional</a>
 
         </div>
         <div class="navbar-collapse collapse">
@@ -68,9 +68,9 @@
               <li>{{ HTML::linkRoute('usuarios.index', 'Usuarios') }}</li>
               <li>{{ HTML::linkRoute('roles.index', 'Roles') }}</li>
               <li>{{ HTML::linkRoute('ciudades.index', 'Ciudades') }}</li>
-              <li>{{ HTML::linkRoute('tecnicos.index', 'Técnicos') }}</li>
-              <li>{{ HTML::linkRoute('clientes.index', 'Clientes') }}</li>
-              <li>{{ HTML::linkRoute('ordenes.index', 'Ordenes de servicio') }}</li>
+              <li>{{ HTML::linkRoute('pacientes.index', 'Pacientes') }}</li>
+              <li>{{ HTML::linkRoute('empresas.index', 'Empresas') }}</li>
+              <li>{{ HTML::linkRoute('certificados.index', 'Certificados') }}</li>
               <li>{{ HTML::linkRoute('reportes.index', 'Reportes') }}</li>
           </ul>
         </div>
@@ -86,7 +86,7 @@
                   <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Cerrar</span></button>
-                    <h4 class="modal-title">Error :: Security Access</h4>
+                    <h4 class="modal-title">Error :: IPS</h4>
                 </div>
                 <div class="modal-body">
                   <div id="error-app-label" class="alert alert-danger"></div>

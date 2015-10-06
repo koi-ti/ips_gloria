@@ -15,39 +15,29 @@ class ModuleTableSeeder extends Seeder {
        		'nivel1' =>  2
        	]);
 
-       	Module::create([
-       		'nombre' => 'Ciudades',
-       		'nivel1' =>  3
-       	]);
+        Module::create([
+          'nombre' => 'Ciudades',
+          'nivel1' =>  3
+        ]);
 
        	Module::create([
-       		'nombre' => 'Tecnicos',
+       		'nombre' => 'Pacientes',
        		'nivel1' =>  4
        	]);
 
-       	Module::create([
-       		'nombre' => 'Clientes',
-       		'nivel1' =>  5
-       	]);
+        Module::create([
+          'nombre' => 'Empresas',
+          'nivel1' =>  5
+        ]);
 
        	Module::create([
-       		'nombre' => 'Orden de servicio',
+       		'nombre' => 'Certificados',
        		'nivel1' =>  6
        	]);
 
-            Module::create([
-                  'nombre' => 'Reporte Ordenes',
-                  'nivel1' =>  7
-            ]);
-
-            Module::create([
-                  'nombre' => 'Reporte Ordenes abiertas',
-                  'nivel1' =>  8
-            ]);
-
-            Module::create([
-                  'nombre' => 'Reporte Ordenes abiertas sin visitas',
-                  'nivel1' =>  9
-            ]);
+        Module::create([
+          'nombre' => 'Reporte Acumulados',
+          'nivel1' =>  7
+        ]);
     }
 }

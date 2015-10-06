@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
-    <title>Security Access Software</title>
+    <title>IPS :: Software</title>
   
     {{--*/ 
       $background = (Request::getHost() == 'duitama.gruponaturalpower.in') ? '#A9F5BC' : '';

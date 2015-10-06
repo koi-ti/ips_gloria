@@ -55,7 +55,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'koiticom_securityacccess',
+			'database'  => 'koiticom_ips',
 			'username'  => 'koiticom_develop',
 			'password'  => 'KOI-dev3lop-2015',
 			'charset'   => 'utf8',

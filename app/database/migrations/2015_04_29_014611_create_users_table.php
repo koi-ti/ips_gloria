@@ -21,6 +21,10 @@ class CreateUsersTable extends Migration {
             $table->string('password');
             $table->string("remember_token")->nullable();            
             $table->boolean('activo');
+            $table->boolean('medico');
+        	$table->string('registro');
+            $table->string('cedula',15)->nullable();  
+            $table->boolean('firma');
             $table->timestamps();
 
         	$table->foreign('rol')->references('id')->on('rol')->onDelete('restrict');        	           	

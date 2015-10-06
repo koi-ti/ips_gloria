@@ -23,18 +23,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password', 'remember_token');
+	protected $hidden = ['password', 'remember_token'];
 
-	protected $fillable = array('email', 'nombre', 'password', 'perfil', 'activo', 'rol');
+	protected $fillable = ['email', 'nombre', 'password', 'perfil', 'activo', 'rol', 'cedula', 'firma', 'registro'];
 
 	public $errors;
 
-	public $states = array('0' => 'Inactivo', '1' => 'Activo');
+	public $states = ['0' => 'Inactivo', '1' => 'Activo'];
 
 	public function isValid($data)
     {
         $rules = array(            
             'email'     => 'required|email|unique:usuario',
+            'cedula'     => 'unique:usuario',
             'nombre' => 'required|min:4|max:40',
             'rol' => 'required',
             'password'  => 'min:8|confirmed',
@@ -42,6 +43,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         
         if ($this->exists){
             $rules['email'] .= ',email,' . $this->id;
+            $rules['cedula'] .= ',cedula,' . $this->id;
         }else{
             $rules['password'] .= '|required';
         }
@@ -65,6 +67,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         if ($this->isValid($data))
         {
             $this->fill($data);
+
+            // Medico
+            if(Input::has('medico')) {
+                $this->medico = true; 
+            }else{
+                $this->medico = false;                
+            }
+            
             $this->save();            
             return true;
         }        

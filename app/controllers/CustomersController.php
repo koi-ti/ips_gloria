@@ -24,6 +24,7 @@ class CustomersController extends \BaseController {
 			if(Request::ajax())
 	        {
 	            $data["links"] = $customers->links();
+	            $data["permission"] = $permission;
 	            $customers = View::make('core.customers.customers', $data)->render();
 	            return Response::json(array('html' => $customers));
 	        }
@@ -48,9 +49,7 @@ class CustomersController extends \BaseController {
 			$customer = new Customer;
 	        $cities = City::lists('nombre', 'codigo');
 
-	        // Elimino datos carrito de session
-	        Session::forget(Customer::$key_cart_address);
-	        return View::make('core.customers.form')->with(['customer' => $customer, 'cities' => $cities, 'html_address' => '']);
+	        return View::make('core.customers.form')->with(['customer' => $customer, 'cities' => $cities]);
 		}else{
             return View::make('core.denied');   
         }
@@ -74,24 +73,6 @@ class CustomersController extends \BaseController {
 	        		$customer->fill($data);	        				        			
 	        		$customer->save();
 
-	        		// Insertar direcciones cliente
-			        $addresses = Session::get(Customer::$key_cart_address);
-			   		if(count($addresses) !=0 && $addresses != NULL)
-			   		{
-				        foreach ($addresses as $address) {				        	
-			 		       	$address = (object) $address;
-				        	$customer_address = new CustomerAddress();
-				        	$customer_address->cliente = $customer->id;
-				        	$customer_address->activo = true;
-				        	$customer_address->nombre = $address->add_nombre;
-				        	$customer_address->persona = $address->add_persona;
-				        	$customer_address->direccion = $address->add_direccion;
-				        	$customer_address->activo = $address->add_activo;
-				        	$customer_address->ciudad = $address->add_ciudad;
-				        	$customer_address->telefono = $address->add_telefono;
-				        	$customer_address->save();
-						}
-					}
 					DB::commit();
 					return Response::json(array('success' => true, 'customer' => $customer));
 			    }catch(\Exception $exception){
@@ -127,11 +108,7 @@ class CustomersController extends \BaseController {
 				App::abort(404);	
 			}
 
-	       $addresses = CustomerAddress::select('cliente_direccion.*', 'ciudad.nombre as ciudad_nombre')
-	        	->join('ciudad', 'cliente_direccion.ciudad', '=', 'ciudad.codigo')
-	        	->where('cliente', '=', $customer->id)->get();
-
-	        return View::make('core.customers.show')->with(['customer' => $customer, 'city' => $city, 'addresses' => $addresses, 'permission' => $permission]);
+	        return View::make('core.customers.show')->with(['customer' => $customer, 'city' => $city, 'permission' => $permission]);
 		}else{
             return View::make('core.denied');   
         }
@@ -154,30 +131,7 @@ class CustomersController extends \BaseController {
 			}
 	        $cities = City::lists('nombre', 'codigo');
 			
-	        // Elimino datos carrito de session
-	        Session::forget(Customer::$key_cart_address);
-	        $addresses = CustomerAddress::select('cliente_direccion.*', 'ciudad.nombre as ciudad_nombre')
-	        	->join('ciudad', 'cliente_direccion.ciudad', '=', 'ciudad.codigo')
-	        	->where('cliente', '=', $customer->id)->get();
-			foreach ($addresses as $address) {
-	        	$item = array();
-	        	$item['_key'] = Customer::$key_cart_address;
-	        	$item['_template'] = Customer::$template_cart_address;
-	        	$item['_layer'] = Customer::$layer_cart_address;	
-				$item['add_id'] = $address->id;
-				$item['add_nombre'] = $address->nombre;
-				$item['add_persona'] = $address->persona;
-				$item['add_direccion'] = $address->direccion;
-				$item['add_ciudad'] = $address->ciudad;
-				$item['add_ciudad_nombre'] = $address->ciudad_nombre;	
-				$item['add_activo'] = $address->activo;
-				$item['add_telefono'] = $address->telefono;
-	        	SessionCart::addItem($item);
-	        }
-
-			$html_address = SessionCart::show(Customer::$key_cart_address, Customer::$template_cart_address);
-
-	        return View::make('core.customers.form')->with(['customer' => $customer, 'cities' => $cities, 'html_address' => $html_address]);
+	        return View::make('core.customers.form')->with(['customer' => $customer, 'cities' => $cities]);
 		}else{
             return View::make('core.denied');   
         }
@@ -203,35 +157,6 @@ class CustomersController extends \BaseController {
 	        	try{
 	        		$customer->fill($data);	        				        			
 	        		$customer->save();
-
-	        		// Actualizar direcciones cliente
-			        $addresses = Session::get(Customer::$key_cart_address);
-			        if(count($addresses) !=0 && $addresses != NULL)
-			   		{
-					    foreach ($addresses as $address) {				        	
-			 		       	$address = (object) $address;
-			 		       	$customer_address = CustomerAddress::find($address->add_id);
-			 		      	if(isset($address->_delete) != 'delete') 
-			 		      	{
-				 		      	if(!$customer_address instanceof CustomerAddress){
-						        	$customer_address = new CustomerAddress();
-						        	$customer_address->cliente = $customer->id;
-						        	$customer_address->activo = true;
-						        	$customer_address->nombre = $address->add_nombre;
-						        	$customer_address->persona = $address->add_persona;
-						        	$customer_address->direccion = $address->add_direccion;
-						        	$customer_address->activo = $address->add_activo;
-						        	$customer_address->ciudad = $address->add_ciudad;
-						        	$customer_address->telefono = $address->add_telefono;
-						        	$customer_address->save();
-			    	    		}
-			    	    	}else{
-			    	    		if($customer_address instanceof CustomerAddress) {
-			    	    			$customer_address->delete();
-			    	    		}		
-			    	    	}
-						}
-					}
 					DB::commit();
 					return Response::json(array('success' => true, 'customer' => $customer));
 			    }catch(\Exception $exception){
@@ -267,7 +192,7 @@ class CustomersController extends \BaseController {
     {
     	if(Request::ajax()) {
     		$html = '';
-    		if(Input::has('nit') || Input::has('nombre')){
+    		if(Input::has('cedula') || Input::has('nombre')){
 		        $customers = Customer::getData();
 			    $html = View::make('core/customers/search', ['customers' => $customers])->render();
 	        }    
@@ -283,26 +208,40 @@ class CustomersController extends \BaseController {
 	 */
 	public function search()
     {
-        $nit = Input::get('nit');
-		$customer = Customer::where('nit','=', $nit)->first();
-		if($customer instanceof Customer){			
+		$customer = Customer::where('cedula','=', Input::get('cedula'))->first();
+		if($customer instanceof Customer) {			
+			$customer->imagen = $customer->imagen ? URL::asset($customer->imagen) : URL::asset('images/default-avatar.png');
 			return Response::json(array('success' => true, 'customer' => $customer));
 		}
 		return Response::json(array('success' => false));        
     }
 
 	/**
-	 * Search addresses resource.
+	 * Store img customer.
 	 *
 	 * @return Response
 	 */
-	public function searchAddresses()
-    {
-        $cliente = Input::get('cliente');
-		$addresses = CustomerAddress::where('cliente','=', $cliente)->lists('nombre', 'id');
-		if(count($addresses)>=1){			
-			return Response::json(array('success' => true, 'addresses' => $addresses));
+	public function file()
+	{
+		$customer = Customer::find(Input::get('id'));
+		if(!$customer instanceof Customer) {
+			App::abort(404);	
 		}
-		return Response::json(array('success' => false));        
-    }
+
+		if (Input::hasFile('imagen')) {
+			$file = Input::file('imagen');
+			if(strpos($file->getClientMimeType(),'image') !== FALSE) {
+				$upload_name = '/img/'.str_random().'.jpg';
+				
+				$img = Image::make($file->getPathName());
+				// now you are able to resize the instance
+				$img->resize(100, 100);
+				$img->save((public_path().$upload_name), 100);
+				
+				$customer->imagen = $upload_name;
+				$customer->save();
+			}
+		}
+        return Redirect::route('pacientes.show', array($customer->id));
+	}
 }

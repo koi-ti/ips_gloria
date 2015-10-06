@@ -1,9 +1,9 @@
 <?php
 
-class RepairmanController extends \BaseController {
+class CompanyController extends \BaseController {
 
     /**
-     * Instantiate a new RepairmanController instance.
+     * Instantiate a new CompanyController instance.
      */
     public function __construct()
     {
@@ -18,22 +18,23 @@ class RepairmanController extends \BaseController {
 	 */
 	public function index()
 	{
-		$permission = Repairman::getPermission();
+		$permission = Company::getPermission();
         if(@$permission->consulta) {
-			$data['repairers'] = $repairers = Repairman::getData();
+			$data['companys'] = $companys = Company::getData();
 			if(Request::ajax())
 	        {
-	            $data["links"] = $repairers->links();
-	            $repairers = View::make('core.repairers.repairers', $data)->render();
-	            return Response::json(array('html' => $repairers));
+	            $data["links"] = $companys->links();
+	            $data["permission"] = $permission;
+	            $companys = View::make('core.companys.companys', $data)->render();
+	            return Response::json(array('html' => $companys));
 	        }
 
             $data['permission'] = $permission;
-	        return View::make('core.repairers.index')->with($data);	
-    	}else{
+	        return View::make('core.companys.index')->with($data);	
+		}else{
             return View::make('core.denied');   
         }
-    }
+	}
 
 
 	/**
@@ -43,16 +44,15 @@ class RepairmanController extends \BaseController {
 	 */
 	public function create()
 	{
-		$permission = Repairman::getPermission();
+		$permission = Company::getPermission();
         if(@$permission->adiciona) {
-			$repairman = new Repairman;
-	        $cities = City::lists('nombre', 'codigo');
+			$company = new Company;
 
-	        return View::make('core.repairers.form')->with(['repairman' => $repairman, 'cities' => $cities]);		
-   		}else{
+	        return View::make('core.companys.form')->with(['company' => $company]);
+		}else{
             return View::make('core.denied');   
         }
-   	}
+	}
 
 
 	/**
@@ -64,21 +64,22 @@ class RepairmanController extends \BaseController {
 	{
 		if(Request::ajax()) {
   			$data = Input::all();
-		    $repairman = new Repairman;
+		    $company = new Company;
 	      	
-	      	if ($repairman->isValid($data)){      		        	
+	      	if ($company->isValid($data)){      		        	
 	        	DB::beginTransaction();	
 	        	try{
-	        		$repairman->fill($data);	        				        			
-	        		$repairman->save();
+	        		$company->fill($data);	        				        			
+	        		$company->save();
+
 					DB::commit();
-					return Response::json(array('success' => true, 'repairman' => $repairman));
+					return Response::json(array('success' => true, 'company' => $company));
 			    }catch(\Exception $exception){
 				    DB::rollback();
 					return Response::json(array('success' => false, 'errors' =>  "$exception - Consulte al administrador."));
 				}
   			}
-  			$data['errors'] = $repairman->errors;
+  			$data['errors'] = $company->errors;
         	$errors = View::make('errors', $data)->render();
     		return Response::json(array('success' => false, 'errors' => $errors));
   		}
@@ -94,18 +95,14 @@ class RepairmanController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$permission = Repairman::getPermission();
+		$permission = Company::getPermission();
         if(@$permission->consulta) {
-			$repairman = Repairman::find($id);
-			if(!$repairman instanceof Repairman) {
+			$company = Company::find($id);
+			if(!$company instanceof Company) {
 				App::abort(404);	
 			}
 
-			$city = City::find($repairman->ciudad);
-			if(!$city instanceof City) {
-				App::abort(404);	
-			}
-	        return View::make('core.repairers.show')->with(['repairman' => $repairman, 'city' => $city, 'permission' => $permission]);
+	        return View::make('core.companys.show')->with(['company' => $company, 'permission' => $permission]);
 		}else{
             return View::make('core.denied');   
         }
@@ -120,19 +117,18 @@ class RepairmanController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$permission = Repairman::getPermission();
+		$permission = Company::getPermission();
         if(@$permission->modifica) {
-			$repairman = Repairman::find($id);
-			if(!$repairman instanceof Repairman) {
+			$company = Company::find($id);
+			if(!$company instanceof Company) {
 				App::abort(404);	
-			}
-	        $cities = City::lists('nombre', 'codigo');
+			}	
 
-	        return View::make('core.repairers.form')->with(['repairman' => $repairman, 'cities' => $cities]);		
-    	}else{
+	        return View::make('core.companys.form')->with(['company' => $company]);
+		}else{
             return View::make('core.denied');   
         }
-    }
+	}
 
 
 	/**
@@ -144,24 +140,24 @@ class RepairmanController extends \BaseController {
 	public function update($id)
 	{
 		if(Request::ajax()) {
-			$repairman = Repairman::find($id);
-			if(!$repairman instanceof Repairman) {
+			$company = Company::find($id);
+			if(!$company instanceof Company) {
 				App::abort(404);	
-			}       
+			}     
 	        $data = Input::all();
-	      	if ($repairman->isValid($data)){      		        	
+	      	if ($company->isValid($data)){      		        	
 	       		DB::beginTransaction();	
 	        	try{
-	        		$repairman->fill($data);	        				        			
-	        		$repairman->save();
+	        		$company->fill($data);	        				        			
+	        		$company->save();
 					DB::commit();
-					return Response::json(array('success' => true, 'repairman' => $repairman));
+					return Response::json(array('success' => true, 'company' => $company));
 			    }catch(\Exception $exception){
 				    DB::rollback();
 					return Response::json(array('success' => false, 'errors' =>  "$exception - Consulte al administrador."));
 				}
 	        }
-  			$data['errors'] = $repairman->errors;
+  			$data['errors'] = $company->errors;
         	$errors = View::make('errors', $data)->render();
     		return Response::json(array('success' => false, 'errors' => $errors));
 		}

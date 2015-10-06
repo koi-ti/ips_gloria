@@ -24,6 +24,7 @@ class UsersController extends \BaseController {
             if(Request::ajax())
             {
                 $data["links"] = $users->links();
+                $data["permission"] = $permission;
                 $users = View::make('core/users/users', $data)->render();
                 return Response::json(array('html' => $users));
             }
@@ -65,6 +66,16 @@ class UsersController extends \BaseController {
         if ($user->isValid($data))
         {
             $user->fill($data);
+
+            // Medico
+            if(Input::has('medico')) {
+                $user->medico = true; 
+                $user->registro = Input::get('registro');               
+            }else{
+                $user->medico = false;                
+                $user->registro = '';               
+            }
+
             $user->save();
             return Redirect::route('usuarios.index');
         }else{

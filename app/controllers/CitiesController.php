@@ -24,6 +24,7 @@ class CitiesController extends \BaseController {
 			if(Request::ajax())
 	        {
 	            $data["links"] = $cities->links();
+	            $data["permission"] = $permission;
 	            $cities = View::make('core.cities.cities', $data)->render();
 	            return Response::json(array('html' => $cities));
 	        }

@@ -24,6 +24,7 @@ class RolesController extends \BaseController {
 			if(Request::ajax())
 	        {
 	            $data["links"] = $roles->links();
+	            $data["permission"] = $permission;
 	            $roles = View::make('core.roles.roles', $data)->render();
 	            return Response::json(array('html' => $roles));
 	        }

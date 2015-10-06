@@ -21,17 +21,22 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::resource('usuarios', 'UsersController');	
 	Route::resource('roles', 'RolesController');	
-	Route::resource('ordenes', 'OrdersController');	
 	Route::resource('ciudades', 'CitiesController');	
-	Route::resource('tecnicos', 'RepairmanController');	
+	Route::resource('empresas', 'CompanyController');	
 
-	Route::group(array('prefix' => 'clientes'), function()	
+	Route::group(array('prefix' => 'pacientes'), function()	
 	{	
 		Route::get('buscar', 'CustomersController@search');
 		Route::get('filtrar', 'CustomersController@filtrar');
-		Route::get('direcciones', 'CustomersController@searchAddresses');
+		Route::post('file', ['as' => 'pacientes.file', 'uses' => 'CustomersController@file']);	
 	});
-	Route::resource('clientes', 'CustomersController');	
+	Route::resource('pacientes', 'CustomersController');	
+
+	Route::group(array('prefix' => 'certificados'), function()	
+	{
+		Route::get('reporte/{id}', ['as' => 'certificados.reporte', 'uses' => 'CertificatesController@reporte']);	
+	});
+	Route::resource('certificados', 'CertificatesController');	
 
 	Route::group(array('prefix' => 'util'), function()	
 	{	
@@ -46,9 +51,8 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::group(array('prefix' => 'reportes'), function()	
 	{	
-		Route::post('ordenes', 'ReportsController@ordenes');	
-		Route::post('ordenessinvisitas', 'ReportsController@ordenessinvisitas');	
-		Route::post('ordenesabiertas', 'ReportsController@ordenesabiertas');	
+		Route::post('acumulados', 'ReportesController@acumulados');
+		Route::post('acumuladosxls', 'ReportesController@acumuladosxls');
 	});
-	Route::resource('reportes', 'ReportsController', ['only' => ['index']]);
+	Route::resource('reportes', 'ReportesController', ['only' => ['index']]);
 });

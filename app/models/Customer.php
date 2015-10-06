@@ -14,28 +14,31 @@ class Customer extends Eloquent {
 
     public $timestamps = false;
 
-    protected $fillable = array('nit', 'nombre', 'direccion', 'ciudad', 'telefono', 'email');
+    protected $fillable = ['cedula', 'nombre', 'fecha_nacimiento', 'lugar_nacimiento', 'nacionalidad', 'sexo', 'estadocivil', 'direccion', 
+        'ciudad', 'telefono', 'escolaridad', 'profesion', 'oficio'];
 
-    public static $key_cart_address = 'key_cart_customer_address';
+    public static $sex = ['' => 'Seleccione', 'M' => 'Masculino', 'F' => 'Femenino'];
 
-    public static $template_cart_address = 'core.customers.address';
-
-    public static $layer_cart_address = 'customer-list-address';
-
+    public static $maritalstatus = ['' => 'Seleccione', 'S' => 'Soltero', 'C' => 'Casado', 'D' => 'Divorciado', 'V' => 'Viudo', 'U' => 'Union libre'];
+ 
     public function isValid($data)
     {
         $rules = array(            
-            'nit' => 'required|min:5|max:15|regex:[^[0-9]*$]|unique:cliente',
+            'cedula' => 'required|min:5|max:15|regex:[^[0-9]*$]|unique:cliente',
             'nombre' => 'required|string|max:50',
+            'fecha_nacimiento' => 'required|date_format:Y-m-d',
+            'lugar_nacimiento' => 'required|string|max:200',
+            'sexo' => 'required',
+            'estadocivil' => 'required',
             'direccion' => 'required|string|max:100',
             'ciudad' => 'required',
-            'email' => 'email' 
+            'telefono' => 'required' 
         );
         
         if ($this->exists){
-            $rules['nit'] .= ',nit,' . $this->id;
+            $rules['cedula'] .= ',cedula,' . $this->id;
         }else{
-            $rules['nit'] .= '|required';
+            $rules['cedula'] .= '|required';
         }
 
         $validator = Validator::make($data, $rules);        
@@ -53,9 +56,9 @@ class Customer extends Eloquent {
     
 	public static function getData()
     {
-        $query = Customer::query();     
-        if (Input::has("nit")) {          
-            $query->where('cliente.nit', Input::get("nit"));
+        $query = Customer::query(); 
+        if (Input::has("cedula")) {          
+            $query->where('cliente.cedula', Input::get("cedula"));
         }
         if (Input::has("nombre")) {          
             $query->where('cliente.nombre', 'like', '%'.Input::get("nombre").'%');
@@ -67,4 +70,15 @@ class Customer extends Eloquent {
     public function setNombreAttribute($name){
 		$this->attributes['nombre'] = strtoupper($name);
 	}
+
+    public static function getAge($date) 
+    {
+        $from = new DateTime($date);
+        $to   = new DateTime('today');
+
+        $datetime1 = new DateTime('2 Jan 2008');
+        $datetime2 = new DateTime('5 July 2012');
+        $interval = $from->diff($to);
+        return $interval->format('%y años, %m meses y %d días');
+    }
 }

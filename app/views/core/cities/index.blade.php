@@ -13,7 +13,7 @@
         @endif
     </div> 
 
-	{{ Form::open(array('route' => 'ordenes.index', 'method' => 'POST', 'id' => 'form-search-cities'), array('role' => 'form')) }}
+	{{ Form::open(array('route' => 'ciudades.index', 'method' => 'POST', 'id' => 'form-search-cities'), array('role' => 'form')) }}
 	<div class="row">	
 	   	<div class="form-group col-md-6">           
             {{ Form::label('nombre', 'Nombre') }}

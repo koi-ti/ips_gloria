@@ -40,6 +40,24 @@
         	<div>{{ $user->updated_at }}</div>
         </div>  
     </div>
+    <div class="row">
+		<div class="form-group col-md-1">
+			<label>Medico</label>
+			<div>{{ $user->medico ? 'SI' : 'NO' }}</div>
+      	</div>  
+      	<div class="form-group col-md-3" style="display:@if($user->medico) block @else none @endif">
+	    	<label>Cédula</label>
+	        <div>{{ $user->cedula }}</div> 
+	    </div>
+      	<div class="form-group col-md-3" style="display:@if($user->medico) block @else none @endif">
+        	<label>Numero de registro</label>
+        	<div>{{ $user->registro }}</div>
+        </div>
+        <div class="form-group col-md-2" style="display:@if($user->medico) block @else none @endif">
+        	<label>Firma</label>
+        	<div>{{ $user->firma ? 'SI' : 'NO' }}</div>
+        </div>
+    </div>
     @if(@$permission->modifica)
     <p>			
 		{{ Form::model($user, array('route' => array('usuarios.destroy', $user->id), 'method' => 'DELETE'), array('role' => 'form')) }}			

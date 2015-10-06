@@ -14,12 +14,12 @@
 		<tbody>
 			@foreach ($customers as $customer)
 				<tr>
-					<td>{{ $customer->nit }}</td>
+					<td>{{ $customer->cedula }}</td>
 					<td>{{ $customer->nombre }}</td>
 					<td nowrap="nowrap" style="text-align:right">					
-						<a href="{{ route('clientes.show', $customer->id) }}" class="btn btn-info">Ver</a>
+						<a href="{{ route('pacientes.show', $customer->id) }}" class="btn btn-info">Ver</a>
 					    @if(@$permission->modifica)
-							<a href="{{ route('clientes.edit', $customer->id) }}" class="btn btn-primary">Editar</a>
+							<a href="{{ route('pacientes.edit', $customer->id) }}" class="btn btn-primary">Editar</a>
 						@endif
 					</td>
 				</tr>

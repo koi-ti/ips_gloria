@@ -15,12 +15,10 @@ class Module extends Eloquent {
 		    case 'user': return 1;
 		    case 'role': return 2;
 		    case 'city': return 3;
-		    case 'repairman': return 4;
-		    case 'customer': return 5;
-		    case 'order': return 6;
-		    case 'reportorder': return 7;
-		    case 'reportopenorder': return 8;
-		    case 'reportoutvisit': return 9;
+		    case 'customer': return 4;
+		    case 'company': return 5;
+		    case 'certificate': return 6;
+		    case 'reportacumulate': return 7;
 			default: return 'Not state identified';
 		endswitch;
     }

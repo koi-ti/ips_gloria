@@ -49,44 +49,37 @@ class PermissionTableSeeder extends Seeder {
        		'otrodos' => true
        	]);
 
-       	Permission::create([
-       		'rol' => 1,
-       		'modulo' => 5,
-       		'consulta' => true,
-       		'adiciona' => true,
-       		'modifica' => true,
-       		'borra' => true,
-       		'otrouno' => true,
-       		'otrodos' => true
-       	]);
+              Permission::create([
+                     'rol' => 1,
+                     'modulo' => 5,
+                     'consulta' => true,
+                     'adiciona' => true,
+                     'modifica' => true,
+                     'borra' => true,
+                     'otrouno' => true,
+                     'otrodos' => true
+              ]);
 
-       	Permission::create([
-       		'rol' => 1,
-       		'modulo' => 6,
-       		'consulta' => true,
-       		'adiciona' => true,
-       		'modifica' => true,
-       		'borra' => true,
-       		'otrouno' => true,
-       		'otrodos' => true
-       	]);
+              Permission::create([
+                     'rol' => 1,
+                     'modulo' => 6,
+                     'consulta' => true,
+                     'adiciona' => true,
+                     'modifica' => true,
+                     'borra' => true,
+                     'otrouno' => true,
+                     'otrodos' => true
+              ]);
 
               Permission::create([
                      'rol' => 1,
                      'modulo' => 7,
-                     'consulta' => true
-              ]);
-
-              Permission::create([
-                     'rol' => 1,
-                     'modulo' => 8,
-                     'consulta' => true
-              ]);
-
-              Permission::create([
-                     'rol' => 1,
-                     'modulo' => 9,
-                     'consulta' => true
+                     'consulta' => true,
+                     'adiciona' => true,
+                     'modifica' => true,
+                     'borra' => true,
+                     'otrouno' => true,
+                     'otrodos' => true
               ]);
     }
 }
