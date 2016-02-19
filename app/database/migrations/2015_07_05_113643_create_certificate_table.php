@@ -123,8 +123,9 @@ class CreateCertificateTable extends Migration {
             $table->string('peso',30);
             $table->string('estatura',30);
             $table->string('imc',30);
-            $table->string('lateridad',30);
+            $table->string('lateridad',2);
             $table->string('ta',30);
+            $table->string('hipertension',2);
             $table->string('fc',30);
             $table->string('fr',30);
             $table->string('t',30);

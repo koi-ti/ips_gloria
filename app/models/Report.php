@@ -11,6 +11,7 @@ class Report {
 	{
 		$query = Certificate::query();  
         $query->select(
+            DB::raw('COUNT(id) as certificados'),
         	DB::raw('sum(CASE WHEN fenfermedad1 THEN 1 ELSE 0 END) as fenfermedad1'),
         	DB::raw('sum(CASE WHEN fenfermedad2 THEN 1 ELSE 0 END) as fenfermedad2'),
         	DB::raw('sum(CASE WHEN fenfermedad3 THEN 1 ELSE 0 END) as fenfermedad3'),
@@ -105,17 +106,176 @@ class Report {
         	DB::raw('sum(CASE WHEN limitacion9 THEN 1 ELSE 0 END) as limitacion9'),
             DB::raw('sum(CASE WHEN limitacion10 THEN 1 ELSE 0 END) as limitacion10'),
             DB::raw('sum(CASE WHEN limitacion11 THEN 1 ELSE 0 END) as limitacion11'),
-        	DB::raw('sum(CASE WHEN limitacion12 THEN 1 ELSE 0 END) as limitacion12')
+            DB::raw('sum(CASE WHEN limitacion12 THEN 1 ELSE 0 END) as limitacion12'),
+        	DB::raw('sum(CASE WHEN limitacion13 THEN 1 ELSE 0 END) as limitacion13')
         );
-
+        
+        // Filters
   		$query->where('certificado.fecha', '>=', Input::get('fecha_inicial_acumulados'));
   		$query->where('certificado.fecha', '<=', Input::get('fecha_final_acumulados'));
 
         if(Input::has('empresa_acumulados')) {
       		$query->where('certificado.empresa', Input::get('empresa_acumulados'));
 		}
-      	
-      	// $query->where('certificado.fecha', Input::get("fecha"));
         return $query->first();
    	}
+
+    public static function getAcumuladosHipertension() 
+    {
+        $query = Certificate::query();  
+        $query->select('hipertension', DB::raw('COUNT(hipertension) as cantidad'));
+
+        $query->whereNotNull('certificado.hipertension');
+        $query->whereRaw("certificado.hipertension != ''");
+
+        // Filters
+        $query->where('certificado.fecha', '>=', Input::get('fecha_inicial_acumulados'));
+        $query->where('certificado.fecha', '<=', Input::get('fecha_final_acumulados'));
+
+        if(Input::has('empresa_acumulados')) {
+            $query->where('certificado.empresa', Input::get('empresa_acumulados'));
+        }
+        $query->groupBy('certificado.hipertension');
+        return $query->lists('cantidad', 'hipertension');   
+    }
+
+    public static function getAcumuladosLateridad() 
+    {
+        $query = Certificate::query();  
+        $query->select('lateridad', DB::raw('COUNT(lateridad) as cantidad'));
+
+        $query->whereNotNull('certificado.lateridad');
+        $query->whereRaw("certificado.lateridad != ''");
+
+        // Filters
+        $query->where('certificado.fecha', '>=', Input::get('fecha_inicial_acumulados'));
+        $query->where('certificado.fecha', '<=', Input::get('fecha_final_acumulados'));
+
+        if(Input::has('empresa_acumulados')) {
+            $query->where('certificado.empresa', Input::get('empresa_acumulados'));
+        }
+        $query->groupBy('lateridad');
+        return $query->lists('cantidad', 'lateridad');   
+    }
+
+    public static function getAcumuladosGSanguineo() 
+    {
+        $query = Certificate::query();  
+        $query->select(DB::raw('CONCAT(certificado.grupo, certificado.rh) as gs'), DB::raw('COUNT( CONCAT(certificado.grupo, certificado.rh) ) as cantidad'));
+
+        $query->whereNotNull('certificado.grupo');
+        $query->whereRaw("certificado.grupo != ''");
+
+        $query->whereNotNull('certificado.rh');
+        $query->whereRaw("certificado.rh != ''");
+
+        // Filters
+        $query->where('certificado.fecha', '>=', Input::get('fecha_inicial_acumulados'));
+        $query->where('certificado.fecha', '<=', Input::get('fecha_final_acumulados'));
+
+        if(Input::has('empresa_acumulados')) {
+            $query->where('certificado.empresa', Input::get('empresa_acumulados'));
+        }
+        $query->groupBy('gs');
+        return $query->lists('cantidad', 'gs');   
+    }
+
+    public static function getAcumuladosIMC() 
+    {
+        $query = Certificate::query();  
+        $query->select(
+            DB::raw("SUM(CASE WHEN imc < 18.5 THEN 1 ELSE 0 END) as '_18_5'"),
+            DB::raw("SUM(CASE WHEN imc >= 18.5 and imc <= 24.9 THEN 1 ELSE 0 END) as '_24_9'"),
+            DB::raw("SUM(CASE WHEN imc >= 25 and imc <= 26.9 THEN 1 ELSE 0 END) as '_26_9'"),
+            DB::raw("SUM(CASE WHEN imc >= 27 and imc <= 29.9 THEN 1 ELSE 0 END) as '_29_9'"),
+            DB::raw("SUM(CASE WHEN imc >= 30 and imc <= 34.9 THEN 1 ELSE 0 END) as '_34_9'"),
+            DB::raw("SUM(CASE WHEN imc >= 35 and imc <= 39.9 THEN 1 ELSE 0 END) as '_39_9'"),
+            DB::raw("SUM(CASE WHEN imc >= 40 and imc <= 49.9 THEN 1 ELSE 0 END) as '_49_9'"),
+            DB::raw("SUM(CASE WHEN imc >= 50 THEN 1 ELSE 0 END) as '_50'")
+        );
+
+        $query->whereNotNull('certificado.imc');
+        $query->whereRaw("certificado.imc != ''");
+
+        // Filters
+        $query->where('certificado.fecha', '>=', Input::get('fecha_inicial_acumulados'));
+        $query->where('certificado.fecha', '<=', Input::get('fecha_final_acumulados'));
+
+        if(Input::has('empresa_acumulados')) {
+            $query->where('certificado.empresa', Input::get('empresa_acumulados'));
+        }
+        return $query->first();   
+    } 
+
+    public static function getDataUsers()
+    {
+        $data = [];
+
+        // Sexo
+        $query = Certificate::query();
+        $query->select( DB::raw('count(cliente.id) as cantidad, sexo') );  
+        $query->join('cliente', 'certificado.cliente', '=', 'cliente.id');
+        
+        // Filters
+        $query->where('certificado.fecha', '>=', Input::get('fecha_inicial_acumulados'));
+        $query->where('certificado.fecha', '<=', Input::get('fecha_final_acumulados'));
+
+        if(Input::has('empresa_acumulados')) {
+            $query->where('certificado.empresa', Input::get('empresa_acumulados'));
+        }
+        $query->groupBy('sexo');
+        $data['sexo'] = $query->lists('cantidad', 'sexo');
+        unset($query);
+
+        // Edad
+        $query = Certificate::query();
+        $query->select( 
+            DB::raw(
+            'count(CASE 
+                WHEN TIMESTAMPDIFF(YEAR, cliente.fecha_nacimiento, CURDATE()) < 18 THEN \'<18\' 
+                WHEN TIMESTAMPDIFF(YEAR, cliente.fecha_nacimiento, CURDATE()) BETWEEN 18 AND 25 THEN \'18-25\' 
+                WHEN TIMESTAMPDIFF(YEAR, cliente.fecha_nacimiento, CURDATE()) BETWEEN 26 AND 40 THEN \'26-40\' 
+                WHEN TIMESTAMPDIFF(YEAR, cliente.fecha_nacimiento, CURDATE()) BETWEEN 41 AND 50 THEN \'41-50\'
+                ELSE \'>50\' 
+            END) as cantidad' ),
+            DB::raw(
+            '(CASE 
+                WHEN TIMESTAMPDIFF(YEAR, cliente.fecha_nacimiento, CURDATE()) < 18 THEN \'<18\' 
+                WHEN TIMESTAMPDIFF(YEAR, cliente.fecha_nacimiento, CURDATE()) BETWEEN 18 AND 25 THEN \'18-25\' 
+                WHEN TIMESTAMPDIFF(YEAR, cliente.fecha_nacimiento, CURDATE()) BETWEEN 26 AND 40 THEN \'26-40\' 
+                WHEN TIMESTAMPDIFF(YEAR, cliente.fecha_nacimiento, CURDATE()) BETWEEN 41 AND 50 THEN \'41-50\'
+                ELSE \'>50\'
+            END) as rango' ) 
+        );  
+        $query->join('cliente', 'certificado.cliente', '=', 'cliente.id');
+
+        // Filters
+        $query->where('certificado.fecha', '>=', Input::get('fecha_inicial_acumulados'));
+        $query->where('certificado.fecha', '<=', Input::get('fecha_final_acumulados'));
+
+        if(Input::has('empresa_acumulados')) {
+            $query->where('certificado.empresa', Input::get('empresa_acumulados'));
+        }
+        $query->groupBy('rango');
+        $data['edad'] = $query->lists('cantidad', 'rango');
+        unset($query);
+
+        // Estrato social
+        $query = Certificate::query();
+        $query->select( DB::raw('count(cliente.id) as cantidad, estrato') );  
+
+        $query->join('cliente', 'certificado.cliente', '=', 'cliente.id');
+
+        // Filters
+        $query->where('certificado.fecha', '>=', Input::get('fecha_inicial_acumulados'));
+        $query->where('certificado.fecha', '<=', Input::get('fecha_final_acumulados'));
+
+        if(Input::has('empresa_acumulados')) {
+            $query->where('certificado.empresa', Input::get('empresa_acumulados'));
+        }
+        $query->groupBy('estrato');
+        $data['estrato'] = $query->lists('cantidad', 'estrato');
+
+        return $data;
+    }
 }

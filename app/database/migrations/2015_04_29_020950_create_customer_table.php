@@ -23,6 +23,7 @@ class CreateCustomerTable extends Migration {
             $table->string('lugar_nacimiento',100);
             $table->string('nacionalidad');
             $table->string('sexo',1);
+            $table->integer('estrato');  
             $table->string('estadocivil',2);
 
             $table->string('direccion');

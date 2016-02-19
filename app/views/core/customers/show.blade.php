@@ -69,6 +69,10 @@
             <label>Sexo</label>
             <div>{{ Customer::$sex[$customer->sexo] }}</div> 
         </div>
+        <div class="form-group col-md-3">
+            <label>Estrato social</label>
+            <div>{{ $customer->estrato ? Customer::$estrato[$customer->estrato] : '' }}</div> 
+        </div>
     </div> 
 
     <div class="row">
@@ -78,7 +82,7 @@
         </div>
         <div class="form-group col-md-3">
             <label>Ciudad</label>
-            <div>{{ $city->nombre }}</div> 
+            <div>{{ $city instanceof City ? $city->nombre : ''}}</div> 
         </div>
         <div class="form-group col-md-4">
             <label>Teléfono</label>

@@ -18,7 +18,11 @@ class Certificate extends Eloquent {
         'P' => 'Psicolaborales', 'O' => 'Otros'];
 
     public static $embarazo = ['NA' => 'No Aplica', 'P' => 'Positivo', 'N' => 'Negativo'];
+    
+    public static $hipertension = ['NA' => 'Normal', 'HE' => 'Hipertenso', 'HO' => 'Hipotenso'];
 
+    public static $lateralidad = ['IZ' => 'Izquierda', 'DE' => 'Derecha'];
+    
     protected $fillable = ['cliente', 'fecha', 'empresa',
         'oempresa1', 'oempresa2', 'oempresa3', 'oae1', 'oae2', 'oae3', 'otiempo1', 'otiempo2', 'otiempo3', 'ocargo1', 'ocargo2', 
         'ocargo3', 'otipo1', 'otipo2', 'otipo3', 'oepp1', 'oepp2', 'oepp3',
@@ -29,7 +33,7 @@ class Certificate extends Eloquent {
         'penfermedad11', 'penfermedad12', 'penfermedad13', 'penfermedad14', 'penfermedad15', 'pfecha1', 'pfecha2', 'pfecha3', 'pfecha4', 'pfecha5', 'pfecha6', 'pfecha7',
         'pfecha8', 'pfecha9', 'pfecha10', 'pfecha11', 'pfecha12', 'pfecha13', 'pfecha14', 'pfecha15', 'ptratamiento1', 'ptratamiento2', 'ptratamiento3', 'ptratamiento4',
         'ptratamiento5', 'ptratamiento6', 'ptratamiento7', 'ptratamiento8', 'ptratamiento9', 'ptratamiento10', 'ptratamiento11', 'ptratamiento12', 'ptratamiento13',
-        'ptratamiento14', 'ptratamiento15', 'grupo', 'rh', 'peso', 'estatura', 'imc', 'lateridad', 'ta', 'fc', 'fr', 't', 'n1', 'n2', 'n3', 'n4', 'n5', 'n6', 'n7', 'n8', 'n9',
+        'ptratamiento14', 'ptratamiento15', 'grupo', 'rh', 'peso', 'estatura', 'imc', 'lateridad', 'ta', 'hipertension', 'fc', 'fr', 't', 'n1', 'n2', 'n3', 'n4', 'n5', 'n6', 'n7', 'n8', 'n9',
         'n10', 'n11', 'n12', 'n13', 'n14', 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10', 'a11', 'a12', 'a13', 'a14', 'hallazgo1', 'hallazgo2', 'hallazgo3',
         'hallazgo4', 'hallazgo5', 'hallazgo6', 'hallazgo7', 'hallazgo8', 'hallazgo9', 'hallazgo10', 'hallazgo11', 'hallazgo12', 'hallazgo13', 'hallazgo14', 'hallazgo15',
         'si1', 'si2', 'si3', 'si4', 'si5', 'si6', 'si7', 'no1', 'no2', 'no3', 'no4', 'no5', 'no6', 'no7', 'observacion1', 'observacion2', 'observacion3', 'observacion4',
@@ -43,16 +47,21 @@ class Certificate extends Eloquent {
         $rules = array(        
             'cliente' => 'required|numeric',    
             'empresa' => 'required|numeric',    
-            'fecha' => 'required|date_format:Y-m-d'
+            'fecha' => 'required|date_format:Y-m-d',
+            'hipertension' => 'required|string'
         );
         
+        $messages = array(
+            'hipertension.required'    => 'El campo hipertension de la sección Examen Fisico es obligatorio.'
+        );
+
         // if ($this->exists){
         //     $rules['cedula'] .= ',cedula,' . $this->id;
         // }else{
         //     $rules['cedula'] .= '|required';
         // }
 
-        $validator = Validator::make($data, $rules);        
+        $validator = Validator::make($data, $rules, $messages);        
         if ($validator->passes()) {
             return true;
         }        
@@ -455,11 +464,11 @@ class Certificate extends Eloquent {
                     <tr>
                         <td align="left" width="3%"><span class="span_check">'.($certificate->limitacion13 ? 'X' : '').'</span></td>
                         <td align="left" width="30%" style="font-size: 11px;">SEROLOGIA</td>
-                        <td align="left" width="3%"><span class="span_check">'.($certificate->embarazo).'</span></td>
+                        <!-- <td align="left" width="3%"><span class="span_check">'.($certificate->embarazo).'</span></td>
                         <td align="left" width="30%" style="font-size: 11px;">PRUEBA DE EMBARAZO</td>
                         <td align="left" width="3%"></td>
-                        <td align="left" width="30%" style="font-size: 10px;">'.Certificate::getEmbarazos().'</td>
-                    </tr>
+                        <td align="left" width="30%" style="font-size: 10px;">'.Certificate::getEmbarazos().'</td> -->
+                    </tr> 
                 </thead>
             </table>';
 

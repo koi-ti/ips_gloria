@@ -161,7 +161,7 @@
                     </div>  
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <span class="label label-warning" id="imc_text">{{ Certificate::getFactores() }}</span>   
+                            <span class="label label-warning">{{ Certificate::getFactores() }}</span>   
                         </div>
                     </div>
                 </div>
@@ -277,7 +277,7 @@
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('fenfermedad3', 'check', $certificate->fenfermedad3, ['disabled' => 'disabled']) }}
-                            {{ Form::label('fenfermedad3', 'Diabetis') }}
+                            {{ Form::label('fenfermedad3', 'Diabetes') }}
                         </div>
                         <div class="form-group col-md-2">
                             {{ $certificate->fparentesco3 }}
@@ -576,23 +576,28 @@
                             {{{ $certificate->imc }}}
                             <span class="label label-warning" id="imc_text"></span>
                         </div>
-                        <div class="form-group col-md-1">
-                            {{ Form::label('lateridad', 'Lateridad') }}
-                            {{{ $certificate->lateridad }}}
+                        <div class="form-group col-md-2">
+                            {{ Form::label('lateridad', 'Lateralidad') }}
+                            {{{ $certificate->lateridad ? Certificate::$lateralidad[$certificate->lateridad] : '' }}}
                         </div>
-                        <div class="form-group col-md-1">
+                        <div class="form-group col-md-2">
                             {{ Form::label('ta', 'TA') }}
                             {{{ $certificate->ta }}}
                         </div>
-                        <div class="form-group col-md-1">
+                        <div class="form-group col-md-2">
+                            <span class="label label-warning">{{ in_array($certificate->hipertension, array_keys(Certificate::$hipertension)) ? Certificate::$hipertension[$certificate->hipertension] : '' }}</span>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="form-group col-md-2">
                             {{ Form::label('fc', 'FC') }}
                             {{{ $certificate->fc }}}
                         </div>
-                        <div class="form-group col-md-1">
+                        <div class="form-group col-md-2">
                             {{ Form::label('fr', 'FR') }}
                             {{{ $certificate->fr }}}
                         </div>
-                        <div class="form-group col-md-1">
+                        <div class="form-group col-md-2">
                             {{ Form::label('t', 'T') }}
                             {{{ $certificate->t }}}
                         </div>

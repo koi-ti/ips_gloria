@@ -19,6 +19,11 @@ class Module extends Eloquent {
 		    case 'company': return 5;
 		    case 'certificate': return 6;
 		    case 'reportacumulate': return 7;
+		    case 'worksheetcustomer': return 8;
+		    case 'worksheetservice': return 9;
+		    case 'worksheetexam': return 10;
+		    case 'worksheetexpense': return 11;
+		    case 'worksheet': return 12;
 			default: return 'Not state identified';
 		endswitch;
     }

@@ -91,6 +91,10 @@
             {{ Form::label('sexo', 'Sexo') }}
             {{ Form::select('sexo', Customer::$sex,null, array('class' => 'form-control')) }}
         </div>
+        <div class="form-group col-md-3">
+            {{ Form::label('estrato', 'Estrato social') }}
+            {{ Form::select('estrato', Customer::$estrato,null, array('class' => 'form-control')) }}
+        </div>
     </div>
 
     <div class="row">

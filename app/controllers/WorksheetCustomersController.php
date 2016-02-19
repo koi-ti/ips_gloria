@@ -1,13 +1,13 @@
 <?php
 
-class CustomersController extends \BaseController {
+class WorksheetCustomersController extends \BaseController {
 
     /**
-     * Instantiate a new CustomersController instance.
+     * Instantiate a new WorksheetCustomersController instance.
      */
     public function __construct()
     {
-        $this->beforeFilter('csrf', array('on' => ['post','put', 'remove']));
+        $this->beforeFilter('csrf', ['except' => ['index', 'create', 'show', 'edit']]);
         $this->beforeFilter('auth');
     }
 
@@ -18,19 +18,18 @@ class CustomersController extends \BaseController {
 	 */
 	public function index()
 	{
-		$permission = Customer::getPermission();
+		$permission = WorksheetCustomer::getPermission();
         if(@$permission->consulta) {
-			$data['customers'] = $customers = Customer::getData();
-			if(Request::ajax())
-	        {
+			$data['customers'] = $customers = WorksheetCustomer::getData();
+			if(Request::ajax()) {
 	            $data["links"] = $customers->links();
 	            $data["permission"] = $permission;
-	            $customers = View::make('core.customers.customers', $data)->render();
-	            return Response::json(array('html' => $customers));
+	            $customers = View::make('core.worksheet.customers.customers', $data)->render();
+	            return Response::json(['html' => $customers]);
 	        }
 
             $data['permission'] = $permission;
-	        return View::make('core.customers.index')->with($data);	
+	        return View::make('core.worksheet.customers.index')->with($data);	
 		}else{
             return View::make('core.denied');   
         }
@@ -44,12 +43,11 @@ class CustomersController extends \BaseController {
 	 */
 	public function create()
 	{
-		$permission = Customer::getPermission();
+		$permission = WorksheetCustomer::getPermission();
         if(@$permission->adiciona) {
-			$customer = new Customer;
-	        $cities = City::lists('nombre', 'codigo');
+			$customer = new WorksheetCustomer;
 
-	        return View::make('core.customers.form')->with(['customer' => $customer, 'cities' => $cities]);
+	        return View::make('core.worksheet.customers.form')->with(['customer' => $customer]);
 		}else{
             return View::make('core.denied');   
         }
@@ -65,7 +63,7 @@ class CustomersController extends \BaseController {
 	{
 		if(Request::ajax()) {
   			$data = Input::all();
-		    $customer = new Customer;
+		    $customer = new WorksheetCustomer;
 	      	
 	      	if ($customer->isValid($data)){      		        	
 	        	DB::beginTransaction();	
@@ -96,15 +94,14 @@ class CustomersController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$permission = Customer::getPermission();
+		$permission = WorksheetCustomer::getPermission();
         if(@$permission->consulta) {
-			$customer = Customer::find($id);
-			if(!$customer instanceof Customer) {
+			$customer = WorksheetCustomer::find($id);
+			if(!$customer instanceof WorksheetCustomer) {
 				App::abort(404);	
 			}
-			$city = City::find($customer->ciudad);
 
-	        return View::make('core.customers.show')->with(['customer' => $customer, 'city' => $city, 'permission' => $permission]);
+	        return View::make('core.worksheet.customers.show')->with(['customer' => $customer, 'permission' => $permission]);
 		}else{
             return View::make('core.denied');   
         }
@@ -119,15 +116,14 @@ class CustomersController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$permission = Customer::getPermission();
+		$permission = WorksheetCustomer::getPermission();
         if(@$permission->modifica) {
-			$customer = Customer::find($id);
-			if(!$customer instanceof Customer) {
+			$customer = WorksheetCustomer::find($id);
+			if(!$customer instanceof WorksheetCustomer) {
 				App::abort(404);	
 			}
-	        $cities = City::lists('nombre', 'codigo');
 			
-	        return View::make('core.customers.form')->with(['customer' => $customer, 'cities' => $cities]);
+	        return View::make('core.worksheet.customers.form')->with(['customer' => $customer]);
 		}else{
             return View::make('core.denied');   
         }
@@ -143,8 +139,8 @@ class CustomersController extends \BaseController {
 	public function update($id)
 	{
 		if(Request::ajax()) {
-			$customer = Customer::find($id);
-			if(!$customer instanceof Customer) {
+			$customer = WorksheetCustomer::find($id);
+			if(!$customer instanceof WorksheetCustomer) {
 				App::abort(404);	
 			}       
 	        $data = Input::all();
@@ -189,55 +185,11 @@ class CustomersController extends \BaseController {
     	if(Request::ajax()) {
     		$html = '';
     		if(Input::has('cedula') || Input::has('nombre')){
-		        $customers = Customer::getData();
-			    $html = View::make('core/customers/search', ['customers' => $customers])->render();
+		        $customers = WorksheetCustomer::getData();
+			    $html = View::make('core.worksheet.customers.search', ['customers' => $customers])->render();
 	        }    
 	      	return Response::json(array('html' => $html));	
 		}
         App::abort(404);      
     }
-
-	/**
-	 * Filtar resource.
-	 *
-	 * @return Response
-	 */
-	public function search()
-    {
-		$customer = Customer::where('cedula','=', Input::get('cedula'))->first();
-		if($customer instanceof Customer) {			
-			$customer->imagen = $customer->imagen ? URL::asset($customer->imagen) : URL::asset('images/default-avatar.png');
-			return Response::json(array('success' => true, 'customer' => $customer));
-		}
-		return Response::json(array('success' => false));        
-    }
-
-	/**
-	 * Store img customer.
-	 *
-	 * @return Response
-	 */
-	public function file()
-	{
-		$customer = Customer::find(Input::get('id'));
-		if(!$customer instanceof Customer) {
-			App::abort(404);	
-		}
-
-		if (Input::hasFile('imagen')) {
-			$file = Input::file('imagen');
-			if(strpos($file->getClientMimeType(),'image') !== FALSE) {
-				$upload_name = '/img/'.str_random().'.jpg';
-				
-				$img = Image::make($file->getPathName());
-				// now you are able to resize the instance
-				$img->resize(100, 100);
-				$img->save((public_path().$upload_name), 100);
-				
-				$customer->imagen = $upload_name;
-				$customer->save();
-			}
-		}
-        return Redirect::route('pacientes.show', array($customer->id));
-	}
 }

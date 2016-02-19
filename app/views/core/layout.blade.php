@@ -10,10 +10,6 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <title>IPS :: Software</title>
-    {{--*/ 
-      $background = (Request::getHost() == 'duitama.gruponaturalpower.in') ? '#A9F5BC' : '';
-    /*--}}
-
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/alertify.core.css') }}" rel="stylesheet">
@@ -23,6 +19,9 @@
     <!-- Custom styles for this template -->
     <link href="{{ asset('bootstrap/css/dashboard.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />
+    
+    <!-- Custom styles koi-ti -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -38,7 +37,7 @@
     <![endif]-->
   </head>
 
-  <body style="background-color: {{ $background }} !important;">
+  <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
 
@@ -64,15 +63,29 @@
     <div class="container-fluid">      
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-              <li>{{ HTML::linkRoute('usuarios.index', 'Usuarios') }}</li>
-              <li>{{ HTML::linkRoute('roles.index', 'Roles') }}</li>
-              <li>{{ HTML::linkRoute('ciudades.index', 'Ciudades') }}</li>
-              <li>{{ HTML::linkRoute('pacientes.index', 'Pacientes') }}</li>
-              <li>{{ HTML::linkRoute('empresas.index', 'Empresas') }}</li>
-              <li>{{ HTML::linkRoute('certificados.index', 'Certificados') }}</li>
-              <li>{{ HTML::linkRoute('reportes.index', 'Reportes') }}</li>
-          </ul>
+            <ul class="nav nav-list">
+                <li><label class="tree-toggler nav-header">Salud Ocupacional</label>
+                    <ul class="nav nav-list nav-sidebar tree">
+                        <li class="{{ Request::segment(1) == 'usuarios' ? 'active' : '' }}">{{ HTML::linkRoute('usuarios.index', 'Usuarios') }}</li>
+                        <li class="{{ Request::segment(1) == 'roles' ? 'active' : '' }}">{{ HTML::linkRoute('roles.index', 'Roles') }}</li>
+                        <li class="{{ Request::segment(1) == 'ciudades' ? 'active' : '' }}">{{ HTML::linkRoute('ciudades.index', 'Ciudades') }}</li>
+                        <li class="{{ Request::segment(1) == 'pacientes' ? 'active' : '' }}">{{ HTML::linkRoute('pacientes.index', 'Pacientes') }}</li>
+                        <li class="{{ Request::segment(1) == 'empresas' ? 'active' : '' }}">{{ HTML::linkRoute('empresas.index', 'Empresas') }}</li>
+                        <li class="{{ Request::segment(1) == 'certificados' ? 'active' : '' }}">{{ HTML::linkRoute('certificados.index', 'Certificados') }}</li>
+                        <li class="{{ Request::segment(1) == 'reportes' ? 'active' : '' }}">{{ HTML::linkRoute('reportes.index', 'Reportes') }}</li>
+                    </ul>
+                </li>
+                <li class="divider"></li>
+                <li><label class="tree-toggler nav-header">Planilla</label>
+                    <ul class="nav nav-list nav-sidebar tree">
+                        <li class="{{ Request::segment(2) == 'pacientes' ? 'active' : '' }}">{{ HTML::linkRoute('planilla.pacientes.index', 'Pacientes') }}</li>
+                        <li class="{{ Request::segment(2) == 'servicios' ? 'active' : '' }}">{{ HTML::linkRoute('planilla.servicios.index', 'Servicios') }}</li>
+                        <li class="{{ Request::segment(2) == 'examen' ? 'active' : '' }}">{{ HTML::linkRoute('planilla.examen.index', 'Exámen') }}</li>
+                        <li class="{{ Request::segment(2) == 'gastos' ? 'active' : '' }}">{{ HTML::linkRoute('planilla.gastos.index', 'Gastos') }}</li>
+                        <li class="{{ Request::segment(2) == 'planillas' ? 'active' : '' }}">{{ HTML::linkRoute('planilla.planillas.create', 'Planilla', ['fecha' => date('Y-m-d')]) }}</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
         
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -99,9 +112,9 @@
         </div>
       </div>  
     </div>
-
-    <script>window.document.url = "{{ URL::to('/') }}";</script> <!-- Bootstrap core JavaScript
-    ================================================== -->
+    
+    <script>window.document.url = "{{ URL::to('/') }}";</script> 
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/docs.min.js') }}"></script>

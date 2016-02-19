@@ -55,4 +55,14 @@ Route::group(array('before' => 'auth'), function()
 		Route::post('acumuladosxls', 'ReportesController@acumuladosxls');
 	});
 	Route::resource('reportes', 'ReportesController', ['only' => ['index']]);
+
+	Route::group(['prefix' => 'planilla'], function()
+	{	
+		Route::resource('pacientes', 'WorksheetCustomersController');	
+		Route::resource('servicios', 'WorksheetServicesController');	
+		Route::resource('examen', 'WorksheetExamController');	
+		Route::resource('gastos', 'WorksheetExpenseController');
+		Route::resource('planillas', 'WorksheetController');	
+	});
+
 });

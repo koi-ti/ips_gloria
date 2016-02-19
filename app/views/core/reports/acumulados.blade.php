@@ -37,6 +37,81 @@
             <div>{{ $fecha_final }}</div> 
         </div>          
     </div>
+
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label>Número de certificados</label>&nbsp;<span class="badge">{{ $certificate->certificados }}</span>
+        </div>       
+    </div>
+
+    <div class="row"> 
+        <div class="form-group col-md-3">
+            <label>Sexo</label>&nbsp;
+            @if(isset($users['sexo']) && is_array($users['sexo']))
+                <ul class="list-group">
+                @foreach($users['sexo'] as $key => $value)
+                    <li class="list-group-item">
+                        <span class="badge">{{ $value }}</span> {{ in_array($key, array_keys(Customer::$sex)) ? Customer::$sex[$key] : $key }}
+                    </li>
+                @endforeach
+                </ul>
+            @endif
+        </div> 
+        <div class="form-group col-md-3">
+            <label>Rango de edad</label>&nbsp;
+            @if(isset($users['edad']) && is_array($users['edad']))
+                <ul class="list-group">
+                @foreach($users['edad'] as $key => $value)
+                    <li class="list-group-item">
+                        <span class="badge">{{ $value }}</span> {{ $key }}
+                    </li>
+                @endforeach
+                </ul>
+            @endif
+        </div>
+        <div class="form-group col-md-3">
+            <label>Estrato social</label>&nbsp;
+            @if(isset($users['estrato']) && is_array($users['estrato']))
+                <ul class="list-group">
+                @foreach($users['estrato'] as $key => $value)
+                    @if($key != 0)
+                        <li class="list-group-item">
+                            <span class="badge">{{ $value }}</span> {{ in_array($key, array_keys(Customer::$estrato)) ? Customer::$estrato[$key] : $key }}
+                        </li>
+                    @endif
+                @endforeach
+                </ul>
+            @endif
+        </div>
+        <div class="form-group col-md-3">
+            <label>Lateralidad</label>&nbsp;
+            @if(isset($lateridad) && is_array($lateridad))
+                <ul class="list-group">
+                @foreach($lateridad as $key => $value)
+                    <li class="list-group-item">
+                        <span class="badge">{{ $value }}</span> {{ in_array($key, array_keys(Certificate::$lateralidad)) ? Certificate::$lateralidad[$key] : $key }}
+                    </li>
+                @endforeach
+                </ul>
+            @endif
+        </div>    
+    </div>
+
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label>Grupo sanguíneo</label>&nbsp;
+            @if(isset($gsanguineo) && is_array($gsanguineo))
+                <ul class="list-inline">
+                @foreach($gsanguineo as $key => $value)
+                    <li class="list-group-item">
+                        <span class="badge">{{ $value }}</span>   &nbsp;&nbsp;   <span>{{ $key }}</span>
+                    </li>
+                @endforeach
+                </ul>
+            @endif
+        </div>  
+    </div>
+
     <div class="panel-group" id="accordion-form" role="tablist" aria-multiselectable="true">
    		<div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingThree">
@@ -65,7 +140,7 @@
                         </div>
                         <div class="form-group col-md-3">
                             <span class="badge">{{ $certificate->fenfermedad3 }}</span>
-                            {{ Form::label('fenfermedad3', 'Diabetis') }}
+                            {{ Form::label('fenfermedad3', 'Diabetes') }}
                         </div>
                         <div class="form-group col-md-3">
                             <span class="badge">{{ $certificate->fenfermedad4 }}</span>
@@ -222,6 +297,86 @@
             </div>
             <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
                 <div class="panel-body">
+                    
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            {{ Form::label('_18_5', 'Peso insuficiente') }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <span class="badge">{{ $imc->_18_5 }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            {{ Form::label('_24_9', 'Normopeso') }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <span class="badge">{{ $imc->_24_9 }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            {{ Form::label('_26_9', 'Sobrepeso grado I') }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <span class="badge">{{ $imc->_26_9 }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            {{ Form::label('_29_9', 'Sobrepeso grado II (preobesidad)') }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <span class="badge">{{ $imc->_29_9 }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            {{ Form::label('_34_9', 'Obesidad de tipo I') }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <span class="badge">{{ $imc->_34_9 }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            {{ Form::label('_39_9', 'Obesidad de tipo II') }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <span class="badge">{{ $imc->_39_9 }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            {{ Form::label('_49_9', 'Obesidad de tipo III (mórbida)') }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <span class="badge">{{ $imc->_49_9 }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            {{ Form::label('_50', 'Obesidad de tipo IV (extrema)') }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <span class="badge">{{ $imc->_50 }}</span>
+                        </div>
+                    </div>
+                    <hr>
+                    @if(isset($hipertension) && is_array($hipertension))
+                        @foreach($hipertension as $key => $value)
+                            <div class="row">
+                                <div class="form-group col-md-3">
+                                    {{ Form::label($key, Certificate::$hipertension[$key]) }}
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <span class="badge">{{ $value }}</span>
+                                </div>
+                            </div>
+                        @endforeach
+                        <hr>
+                    @endif
+
                     <div class="row">
                         <div class="form-group col-md-3"><span class="label label-primary">Organo</span></div>
                         <div class="form-group col-md-2"><span class="label label-primary">N</span></div>
@@ -621,6 +776,13 @@
                         <div class="form-group col-md-4">
                             <span class="badge">{{ $certificate->limitacion12 }}</span>
                             {{ Form::label('limitacion12', 'CONTROL DE COMORBILIDAD EPS') }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <span class="badge">{{ $certificate->limitacion13 }}</span>
+                            {{ Form::label('limitacion13', 'SEROLOGIA') }}
                         </div>
                     </div>
                 </div>

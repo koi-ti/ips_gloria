@@ -4,6 +4,62 @@
     </tr>
 
 	<tr><td></td></tr>
+	<tr>
+		<td>Numero de certificados</td>
+		<td>{{ $certificate->certificados }}</td>
+	</tr>
+	<tr><td></td></tr>
+
+	<tr><td></td></tr>
+	<tr><td>Sexo</td></tr>
+	@if(isset($users['sexo']) && is_array($users['sexo']))
+        @foreach($users['sexo'] as $key => $value)
+        	<tr>
+        		<td>{{ in_array($key, array_keys(Customer::$sex)) ? Customer::$sex[$key] : $key }}</td>
+        		<td>{{ $value }}</td>
+            </tr>
+        @endforeach
+    @endif
+	<tr><td></td></tr>
+
+	<tr><td></td></tr>
+	<tr><td>Rango de edad</td></tr>
+	@if(isset($users['edad']) && is_array($users['edad']))
+        @foreach($users['edad'] as $key => $value)
+        	<tr>
+        		<td>{{ $key }}</td>
+        		<td>{{ $value }}</td>
+            </tr>
+        @endforeach
+    @endif
+	<tr><td></td></tr>
+
+	<tr><td></td></tr>
+	<tr><td>Estrato social</td></tr>
+	@if(isset($users['estrato']) && is_array($users['estrato']))
+        @foreach($users['estrato'] as $key => $value)
+            @if($key != 0)
+	        	<tr>
+	        		<td>{{ in_array($key, array_keys(Customer::$estrato)) ? Customer::$estrato[$key] : $key }}</td>
+	        		<td>{{ $value }}</td>
+	            </tr>
+	      	@endif
+        @endforeach
+    @endif
+	<tr><td></td></tr>
+
+	<tr><td></td></tr>
+	<tr><td>Lateralidad</td></tr>
+	@if(isset($lateridad) && is_array($lateridad))
+        @foreach($lateridad as $key => $value)
+        	<tr>
+        		<td>{{ in_array($key, array_keys(Certificate::$lateralidad)) ? Certificate::$lateralidad[$key] : $key }}</td>
+        		<td>{{ $value }}</td>
+            </tr>
+        @endforeach
+    @endif
+	<tr><td></td></tr>
+
 	<tr><th colspan="2">Antecedentes Familiares</th></tr>
     <tr><th aling="left">Enfermedad</th></tr>
 	<tr>
@@ -15,7 +71,7 @@
 		<td>{{ $certificate->fenfermedad2 }}</td>
 	</tr>
 	<tr>
-		<td>{{ Form::label('fenfermedad3', 'Diabetis') }}</td>
+		<td>{{ Form::label('fenfermedad3', 'Diabetes') }}</td>
 		<td>{{ $certificate->fenfermedad3 }}</td>
 	</tr>
 	<tr>
@@ -103,6 +159,50 @@
     </tr>      
 	
     <tr><th colspan="3">Examen Fisico</th></tr>
+
+    <tr>
+		<td>Peso insuficiente</td>
+        <td>{{ $imc->_18_5 }}</td>
+	</tr>
+	<tr>
+		<td>Normopeso</td>
+        <td>{{ $imc->_24_9 }}</td>
+	</tr>
+	<tr>
+		<td>Sobrepeso grado I</td>
+        <td>{{ $imc->_26_9 }}</td>
+	</tr>
+	<tr>
+		<td>Sobrepeso grado II (preobesidad)/td>
+        <td>{{ $imc->_29_9 }}</td>
+	</tr>
+	<tr>
+		<td>Obesidad de tipo I</td>
+        <td>{{ $imc->_34_9 }}</td>
+	</tr>
+	<tr>
+		<td>Obesidad de tipo II</td>
+        <td>{{ $imc->_39_9 }}</td>
+	</tr>
+	<tr>
+		<td>Obesidad de tipo III (morbida)</td>
+        <td>{{ $imc->_49_9 }}</td>
+	</tr>
+	<tr>
+		<td>Obesidad de tipo IV (extrema)</td>
+        <td>{{ $imc->_50 }}</td>
+	</tr>
+    <tr><td></td></tr>
+    @if(isset($hipertension) && is_array($hipertension))
+        @foreach($hipertension as $key => $value)
+            <tr>
+				<td>{{ Certificate::$hipertension[$key] }}</td>
+		        <td>{{ $value }}</td>
+			</tr>
+        @endforeach
+        <tr><td></td></tr>
+    @endif
+    
 	<tr><th></th><th>N</th><th>A</th></tr>
 	<tr>
 		<td>{{ Form::label('n1', 'Cabeza') }}</td>
@@ -301,5 +401,9 @@
     <tr>
         <td>{{ Form::label('limitacion12', 'CONTROL DE COMORBILIDAD EPS') }}</td>
 		<td>{{ $certificate->limitacion12 }}</td>
+    </tr>
+    <tr>
+        <td>{{ Form::label('limitacion13', 'SEROLOGIA') }}</td>
+		<td>{{ $certificate->limitacion13 }}</td>
     </tr>
 </table>

@@ -294,7 +294,7 @@
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('fenfermedad3', 'check', null) }}
-                            {{ Form::label('fenfermedad3', 'Diabetis') }}
+                            {{ Form::label('fenfermedad3', 'Diabetes') }}
                         </div>
                         <div class="form-group col-md-2">
                             {{ Form::text('fparentesco3', null, array('class' => 'form-control', 'maxlength' => 100)) }}
@@ -625,24 +625,30 @@
                         </div>
                         
                         <div class="form-group col-md-2">
-                            {{ Form::label('lateridad', 'Lateridad') }}
-                            {{ Form::text('lateridad', null, array('class' => 'form-control', 'maxlength' => 30)) }}
+                            {{ Form::label('lateridad', 'Lateralidad') }}
+                            {{ Form::select('lateridad', ['' => 'Seleccione'] + Certificate::$lateralidad ,null, array('class' => 'form-control')) }}
                         </div>
 
-                        <div class="form-group col-md-1">
+                        <div class="form-group col-md-2">
                             {{ Form::label('ta', 'TA') }}
                             {{ Form::text('ta', null, array('class' => 'form-control', 'maxlength' => 30)) }}
                         </div>
-                        
-                        <div class="form-group col-md-1">
+                         <div class="form-group col-md-2">
+                            <label>&nbsp;</label>
+                            {{ Form::select('hipertension', ['' => 'Seleccione'] + Certificate::$hipertension ,null, array('class' => 'form-control')) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-2">
                             {{ Form::label('fc', 'FC') }}
                             {{ Form::text('fc', null, array('class' => 'form-control', 'maxlength' => 30)) }}
                         </div>
-                        <div class="form-group col-md-1">
+                        <div class="form-group col-md-2">
                             {{ Form::label('fr', 'FR') }}
                             {{ Form::text('fr', null, array('class' => 'form-control', 'maxlength' => 30)) }}
                         </div>
-                        <div class="form-group col-md-1">
+                        <div class="form-group col-md-2">
                             {{ Form::label('t', 'T') }}
                             {{ Form::text('t', null, array('class' => 'form-control', 'maxlength' => 30)) }}
                         </div>
@@ -660,7 +666,7 @@
                             {{ Form::label('n1', 'Cabeza') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n1', 'check', null, ['id' => 'n1']) }}
+                            {{ Form::checkbox('n1', 'check', $certificate->exists ? null : true, ['id' => 'n1']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a1', 'check', null, ['id' => 'a1']) }}
@@ -675,7 +681,7 @@
                             {{ Form::label('n2', 'Ojos') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n2', 'check', null, ['id' => 'n2']) }}
+                            {{ Form::checkbox('n2', 'check', $certificate->exists ? null : true, ['id' => 'n2']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a2', 'check', null, ['id' => 'a2']) }}
@@ -690,7 +696,7 @@
                             {{ Form::label('n3', 'Agudeza Visual') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n3', 'check', null, ['id' => 'n3']) }}
+                            {{ Form::checkbox('n3', 'check', $certificate->exists ? null : true, ['id' => 'n3']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a3', 'check', null, ['id' => 'a3']) }}
@@ -705,7 +711,7 @@
                             {{ Form::label('n4', 'Nariz') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n4', 'check', null, ['id' => 'n4']) }}
+                            {{ Form::checkbox('n4', 'check', $certificate->exists ? null : true, ['id' => 'n4']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a4', 'check', null, ['id' => 'a4']) }}
@@ -720,7 +726,7 @@
                             {{ Form::label('n5', 'Boca') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n5', 'check', null, ['id' => 'n5']) }}
+                            {{ Form::checkbox('n5', 'check', $certificate->exists ? null : true, ['id' => 'n5']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a5', 'check', null, ['id' => 'a5']) }}
@@ -735,7 +741,7 @@
                             {{ Form::label('n6', 'Oidos') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n6', 'check', null, ['id' => 'n6']) }}
+                            {{ Form::checkbox('n6', 'check', $certificate->exists ? null : true, ['id' => 'n6']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a6', 'check', null, ['id' => 'a6']) }}
@@ -750,7 +756,7 @@
                             {{ Form::label('n7', 'Torax') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n7', 'check', null, ['id' => 'n7']) }}
+                            {{ Form::checkbox('n7', 'check', $certificate->exists ? null : true, ['id' => 'n7']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a7', 'check', null, ['id' => 'a7']) }}
@@ -765,7 +771,7 @@
                             {{ Form::label('n8', 'Corazon') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n8', 'check', null, ['id' => 'n8']) }}
+                            {{ Form::checkbox('n8', 'check', $certificate->exists ? null : true, ['id' => 'n8']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a8', 'check', null, ['id' => 'a8']) }}
@@ -780,7 +786,7 @@
                             {{ Form::label('n9', 'Abdomen') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n9', 'check', null, ['id' => 'n9']) }}
+                            {{ Form::checkbox('n9', 'check', $certificate->exists ? null : true, ['id' => 'n9']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a9', 'check', null, ['id' => 'a9']) }}
@@ -795,7 +801,7 @@
                             {{ Form::label('n10', 'Genitourinario') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n10', 'check', null, ['id' => 'n10']) }}
+                            {{ Form::checkbox('n10', 'check', $certificate->exists ? null : true, ['id' => 'n10']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a10', 'check', null, ['id' => 'a10']) }}
@@ -810,7 +816,7 @@
                             {{ Form::label('n11', 'Columna') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n11', 'check', null, ['id' => 'n11']) }}
+                            {{ Form::checkbox('n11', 'check', $certificate->exists ? null : true, ['id' => 'n11']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a11', 'check', null, ['id' => 'a11']) }}
@@ -825,7 +831,7 @@
                             {{ Form::label('n12', 'Extremidades') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n12', 'check', null, ['id' => 'n12']) }}
+                            {{ Form::checkbox('n12', 'check', $certificate->exists ? null : true, ['id' => 'n12']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a12', 'check', null, ['id' => 'a12']) }}
@@ -840,7 +846,7 @@
                             {{ Form::label('n13', 'SNC') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n13', 'check', null, ['id' => 'n13']) }}
+                            {{ Form::checkbox('n13', 'check', $certificate->exists ? null : true, ['id' => 'n13']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a13', 'check', null, ['id' => 'a13']) }}
@@ -855,7 +861,7 @@
                             {{ Form::label('n14', 'Piel y Faneas') }}
                         </div>
                         <div class="form-group col-md-1">
-                            {{ Form::checkbox('n14', 'check', null, ['id' => 'n14']) }}
+                            {{ Form::checkbox('n14', 'check', $certificate->exists ? null : true, ['id' => 'n14']) }}
                         </div>
                         <div class="form-group col-md-1">
                             {{ Form::checkbox('a14', 'check', null, ['id' => 'a14']) }}
@@ -905,7 +911,7 @@
                             {{ Form::checkbox('no1', 'check', null, ['id' => 'no1']) }}
                         </div>
                         <div class="form-group col-md-8">
-                            {{ Form::text('observacion1', null, array('class' => 'form-control', 'maxlength' => 200)) }}
+                            {{ Form::text('observacion1', $certificate->exists ? null : 'Negativo', array('class' => 'form-control', 'maxlength' => 200)) }}
                         </div>
                     </div>
 
@@ -920,7 +926,7 @@
                             {{ Form::checkbox('no2', 'check', null, ['id' => 'no2']) }}
                         </div>
                         <div class="form-group col-md-8">
-                            {{ Form::text('observacion2', null, array('class' => 'form-control', 'maxlength' => 200)) }}
+                            {{ Form::text('observacion2', $certificate->exists ? null : 'No reactivo', array('class' => 'form-control', 'maxlength' => 200)) }}
                         </div>
                     </div>
 
@@ -935,7 +941,7 @@
                             {{ Form::checkbox('no3', 'check', null, ['id' => 'no3']) }}
                         </div>
                         <div class="form-group col-md-8">
-                            {{ Form::text('observacion3', null, array('class' => 'form-control', 'maxlength' => 200)) }}
+                            {{ Form::text('observacion3', $certificate->exists ? null : 'Negativo', array('class' => 'form-control', 'maxlength' => 200)) }}
                         </div>
                     </div>
 
@@ -965,7 +971,7 @@
                             {{ Form::checkbox('no5', 'check', null, ['id' => 'no5']) }}
                         </div>
                         <div class="form-group col-md-8">
-                            {{ Form::text('observacion5', null, array('class' => 'form-control', 'maxlength' => 200)) }}
+                            {{ Form::text('observacion5', $certificate->exists ? null : 'Negativo', array('class' => 'form-control', 'maxlength' => 200)) }}
                         </div>
                     </div>
 
@@ -980,7 +986,7 @@
                             {{ Form::checkbox('no6', 'check', null, ['id' => 'no6']) }}
                         </div>
                         <div class="form-group col-md-8">
-                            {{ Form::text('observacion6', null, array('class' => 'form-control', 'maxlength' => 200)) }}
+                            {{ Form::text('observacion6', $certificate->exists ? null : 'Negativo', array('class' => 'form-control', 'maxlength' => 200)) }}
                         </div>
                     </div>
 
@@ -995,7 +1001,7 @@
                             {{ Form::checkbox('no7', 'check', null, ['id' => 'no7']) }}
                         </div>
                         <div class="form-group col-md-8">
-                            {{ Form::text('observacion7', null, array('class' => 'form-control', 'maxlength' => 200)) }}
+                            {{ Form::text('observacion7', $certificate->exists ? null : 'Negativo', array('class' => 'form-control', 'maxlength' => 200)) }}
                         </div>
                     </div>
                 </div>

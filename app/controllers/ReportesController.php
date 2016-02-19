@@ -106,7 +106,12 @@ class ReportesController extends \BaseController {
         $data['fecha_inicial'] = Input::get('fecha_inicial_acumulados');
         $data['fecha_final'] = Input::get('fecha_final_acumulados');
 
+      	$data['gsanguineo'] = Report::getAcumuladosGSanguineo();
+  		$data['lateridad'] = Report::getAcumuladosLateridad();
+        $data['users'] = Report::getDataUsers();
         $data['certificate'] = Report::getAcumulados();
+        $data['hipertension'] = Report::getAcumuladosHipertension();
+        $data['imc'] = Report::getAcumuladosIMC();
 		
 		if(Input::has('type')){
 			switch (Input::get('type')) {
