@@ -1,0 +1,31 @@
+.nav > li > a{  
+    padding-left: 35px;
+}
+
+.nav > li.active {  
+    background-color: #0088CC;
+}
+
+.nav > li.divider { 
+    height: 1px;
+    width:100%;
+    display:block; /* for use on default inline elements like span */
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+
+.center-table
+{
+  margin: 0 auto !important;
+  float: none !important;
+}
+
+.modal-dialog-worksheet{
+    overflow-y: initial !important
+}
+
+.modal-body-worksheet{
+    height: 450px;
+    overflow-y: auto;
+}
